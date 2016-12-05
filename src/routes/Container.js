@@ -44,7 +44,9 @@ class Container extends Component {
             <Menu.Item key="individual">个人号
               <Link to="individual"/>
             </Menu.Item>
-            <Menu.Item key="biz">服务号</Menu.Item>
+            <Menu.Item key="biz">服务号
+              <Link to="biz"/>
+            </Menu.Item>
           </SubMenu>
 
           <Menu.Item key="biz_tag">
