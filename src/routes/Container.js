@@ -37,15 +37,18 @@ class Container extends Component {
         <div className="ant-layout-logo">后台管理平台</div>
         <Menu mode="inline"
               theme="light"
-              defaultOpenKeys={['account','commend']}
-              defaultSelectedKeys={['person']}>
+              defaultOpenKeys={['account','commend','movie']}
+              //defaultSelectedKeys={['person']}
+        >
           <SubMenu key="account" title={<span><Icon type="mail" /><span>账号管理</span></span>}>
-            <Menu.Item key="person">个人号</Menu.Item>
-            <Menu.Item key="service">服务号</Menu.Item>
+            <Menu.Item key="individual">个人号
+              <Link to="individual"/>
+            </Menu.Item>
+            <Menu.Item key="biz">服务号</Menu.Item>
           </SubMenu>
 
-          <Menu.Item key="media">
-            <Icon type="setting" /><span className="nav-text">音视频分类管理</span>
+          <Menu.Item key="biz_tag">
+            <Icon type="setting" /><span className="nav-text">服务号标签管理</span>
           </Menu.Item>
 
           <SubMenu key="commend" title={<span><Icon type="laptop" /><span>推荐位管理</span></span>}>
@@ -54,9 +57,11 @@ class Container extends Component {
             <Menu.Item key="TVcommend">TV首页推荐位</Menu.Item>
           </SubMenu>
 
-          <Menu.Item key="api">
-            <Icon type="notification" /><span className="nav-text">API接口</span>
-          </Menu.Item>
+          <SubMenu key="movie" title={<span><Icon type="laptop" /><span>影视分类和视频</span></span>}>
+            <Menu.Item key="movie_1">VR视频</Menu.Item>
+            <Menu.Item key="movie_2">好莱坞</Menu.Item>
+            <Menu.Item key="movie_3">院线大片</Menu.Item>
+          </SubMenu>
         </Menu>
 
         <div className="ant-aside-action" onClick={this.onCollapseChange}>
