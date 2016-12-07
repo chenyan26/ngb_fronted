@@ -3,8 +3,6 @@ import qs from 'qs';
 
 // import cfg from '../../app.config';
 
-// -----------------------------------  个人账号 ---------------------------------
-
 // export async function query(params) {
 // 	return request(`/api/users?${qs.stringify(params)}`);
 // }
@@ -20,14 +18,18 @@ export async function create(params) {
 		body: qs.stringify(params),
 	});
 }
-
+*/
 export async function remove(params) {
-	return request('/api/users', {
-		method: 'delete',
+	return request('/account/individuals', {
+		method: 'post',
+		// headers: {
+		// 	/*Must have this to make Nutz backend recognize.*/
+		// 	'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+		// },
 		body: qs.stringify(params),
 	});
 }
-
+/*
 export async function update(params) {
 	return request('/api/users', {
 		method: 'put',
@@ -35,5 +37,3 @@ export async function update(params) {
 	});
 }
 */
-// -----------------------------------  服务账号 ---------------------------------
-

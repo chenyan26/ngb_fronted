@@ -38,7 +38,7 @@ class Container extends Component {
         <Menu mode="inline"
               theme="light"
               defaultOpenKeys={['account','commend','movie']}
-              //defaultSelectedKeys={['person']}
+              defaultSelectedKeys={['individual']}
         >
           <SubMenu key="account" title={<span><Icon type="mail" /><span>账号管理</span></span>}>
             <Menu.Item key="individual">个人号
