@@ -30,17 +30,25 @@ class Individual extends React.Component {
     handleOk = ()=> {
         const { dispatch, newModal } = this.props;
         if (newModal) {
+            console.log("提交新建");
             dispatch({
                 type: 'individual/create',
                 payload: {
-                    // : true,
+                    number: this.state.number,
+                    mobile: this.state.mobile,
+                    name: this.state.name,
+                    device_id: this.state.device_id,
                 },
             });
         } else {
+            console.log("提交编辑");
             dispatch({
                 type: 'individual/update',
                 payload: {
-                    // addModal: true,
+                    number: this.state.number,
+                    mobile: this.state.mobile,
+                    name: this.state.name,
+                    device_id: this.state.device_id,
                 },
             });
         }
@@ -87,6 +95,8 @@ class Individual extends React.Component {
                 hasFeedback: true
             };
 
+            // const submitStatue = this.state.mobile ? "" : "disabled";
+
             return (
                     <Modal  visible={modalVisible}
                             title="个人号"
@@ -94,10 +104,11 @@ class Individual extends React.Component {
                             onOk={this.handleOk}
                             onCancel={this.handleCancel}
                             footer={[
-                                <Button key="back" type="ghost" size="large" onClick={this.handleCancel}>取消</Button>,
-                                <Button key="submit" type="primary" size="large" onClick={this.handleOk}>
-                                提交
-                                </Button>
+                                <Button key="back" type="ghost" size="large"
+                                        onClick={this.handleCancel}>取消</Button>,
+                                <Button key="submit" type="primary" size="large"
+                                        disabled = {this.state.number ? false : true}
+                                        onClick={this.handleOk} >提交</Button>
                             ]}
                     >
                         <Form horizontal>
@@ -151,7 +162,7 @@ class Individual extends React.Component {
         dispatch({
             type: 'individual/showModal',
             payload: {
-                addModal: true,
+                newModal: true,
             },
         });
 
@@ -168,7 +179,7 @@ class Individual extends React.Component {
         dispatch({
             type: 'individual/showModal',
             payload: {
-                addModal: false,
+                newModal: false,
                 currentItem: record,
             },
         });

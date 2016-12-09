@@ -11,17 +11,9 @@ export async function query() {
 	return request(`/account/individuals`);
 }
 
-/*
-export async function create(params) {
-	return request('/api/users', {
-		method: 'post',
-		body: qs.stringify(params),
-	});
-}
-*/
 export async function remove(params) {
 	return request('/account/individuals', {
-		method: 'post',
+		method: 'delete',
 		// headers: {
 		// 	/*Must have this to make Nutz backend recognize.*/
 		// 	'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -29,11 +21,17 @@ export async function remove(params) {
 		body: qs.stringify(params),
 	});
 }
-/*
+
+export async function create(params) {
+	return request('/account/individuals', {
+		method: 'post',
+		body: qs.stringify(params),
+	});
+}
+
 export async function update(params) {
-	return request('/api/users', {
+	return request('/account/individuals', {
 		method: 'put',
 		body: qs.stringify(params),
 	});
 }
-*/

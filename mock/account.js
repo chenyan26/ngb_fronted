@@ -6,7 +6,7 @@ var qs = require('qs');
 //console.log(`Mocking HTTP service on port 8989 with base dir: ${cfg.server}`);
 
 let individual = [];
-for (let i = 0; i < 100; i++) {
+for (let i = 1; i < 71; i++) {
 	individual.push({
 		id: `${i}`,
 		number: `11111111${i}`,
@@ -63,7 +63,7 @@ module.exports = {
 		});
 	},
 
-	'POST /account/individuals': function (req, res) {
+	'DELETE /account/individuals': function (req, res) {
 		const deleteItem = qs.parse(req.body);
 		console.log(`deleteItem:-------- ${deleteItem.id}`);
 
@@ -73,6 +73,44 @@ module.exports = {
 			ok: true,
 			err: null,
 			// data: individual
+		});
+	},
+
+	'POST /account/individuals': function (req, res) {
+		const item = qs.parse(req.body);
+		const lastId = individual[individual.length - 1].id;
+		individual.push({
+			id: `${ Number(lastId)+ 1}`,
+			number: item.number,
+			mobile: item.mobile,
+			name: item.name,
+			device_id: item.device_id,
+		});
+		// individual = individual.filter(user => user.id !== deleteItem.id);
+		res.json({
+			ok: true,
+			err: null,
+			data: individual[individual.length - 1]
+		});
+	},
+
+	'PUT /account/individuals': function (req, res) {
+		const item = qs.parse(req.body);
+		let index = 0;
+		individual.map((obj, i)=> {
+			if (obj.id == item.id) {
+				obj.number = item.number;
+				obj.mobile = item.mobile;
+				obj.name = item.name;
+				obj.device_id = item.device_id
+
+				index = i;
+			}
+		});
+		res.json({
+			ok: true,
+			err: null,
+			data: individual[index]
 		});
 	},
 

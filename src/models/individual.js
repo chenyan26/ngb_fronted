@@ -59,24 +59,41 @@ export default {
       }
     },
 
-/*
     *create({ payload }, { call, put }) {
-      yield put({ type: 'hideModal' });
       yield put({ type: 'showLoading' });
-      const { data } = yield call(create, payload);
-      if (data && data.success) {
+      const { response, err } = yield call(service.create, payload);
+      if(err || !response){
+        yield put({type:'createFailed',payload:err.message});
+      }else if(response.ok) {
         yield put({
           type: 'createSuccess',
-          payload: {
-            list: data.data,
-            total: data.page.total,
-            current: data.page.current,
-            field: '',
-            keyword: '',
-          },
+          payload: response.data,
         });
+        yield put({ type: 'hideModal' });
+        // yield put(routerRedux.push('/login'));
+      }else{
+        yield put({type:'createFailed', payload:response.err});
       }
     },
+
+    *update({ payload }, { call, put }) {
+      yield put({ type: 'showLoading' });
+      const { response, err } = yield call(service.update, payload);
+      if(err || !response){
+        yield put({type:'updateFailed',payload:err.message});
+      }else if(response.ok) {
+        yield put({
+          type: 'updateSuccess',
+          payload: response.data,
+        });
+        yield put({ type: 'hideModal' });
+        // yield put(routerRedux.push('/login'));
+      }else{
+        yield put({type:'updateFailed', payload:response.err});
+      }
+    }
+  },
+
     /*
     *update({ payload }, { select, call, put }) {
       yield put({ type: 'hideModal' });
@@ -93,8 +110,6 @@ export default {
     },
     */
 
-  },
-
   reducers: {
     showLoading(state) {
       return { ...state, loading: true };
@@ -110,16 +125,19 @@ export default {
       // console.log(`reducer - querySuccess: ${payload}`);
       return { ...state, list: payload, loading: false};
     },
-
     queryFailed(state, { payload }){
       return { ...state, error: payload, loading: false};
     },
-/*
+
     createSuccess(state, action) {
-      // const newUser = action.payload;
-      return { ...state, ...action.payload, loading: false };
+      const newList = state.list;
+      newList.push(action.payload);
+      return { ...state, list:newList, loading: false };
     },
-    */
+    createFailed(state, { payload }){
+      return { ...state, error: payload, loading: false};
+    },
+
     deleteSuccess(state, action) {
       const id = action.payload;
       console.log(`reducer - deleteSuccess: ${id}`);
@@ -129,29 +147,21 @@ export default {
     deleteFailed(state, { payload }){
       return { ...state, error: payload, loading: false};
     },
-      /*
-    updateSuccess(state, action) {
-      const updateUser = action.payload;
-      const newList = state.list.map(user => {
-        if (user.id === updateUser.id) {
-          return { ...user, ...updateUser };
+
+    updateSuccess(state, {payload}) {
+      console.log(payload);
+
+      const newList = state.list.map(individual => {
+        if (individual.id === payload.id) {
+          return { ...individual, ...payload };
         }
-        return user;
+        return individual;
       });
       return { ...state, list: newList, loading: false };
-    }, */
-
-    /*
-    loginFailed(state, {payload}){
+    },
+    updateFailed(state, {payload}){
       return { ...state, id: null, name: null, role: null, error: payload };
     },
-
-    logoutSuccess(state, {payload}){
-      //console.log(`reducer - logoutSuccess: ${state.user}`);
-      return {...state, id: null, name: null, role: null };
-    }
-    */
-
   },
 
 }
