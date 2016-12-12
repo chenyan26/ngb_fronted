@@ -37,9 +37,14 @@ class Container extends Component {
         <div className="ant-layout-logo">后台管理平台</div>
         <Menu mode="inline"
               theme="light"
-              defaultOpenKeys={['account','commend','movie']}
-              defaultSelectedKeys={['individual']}
+              defaultOpenKeys={['customer','account','movie']}
+              defaultSelectedKeys={['customer_info']}
         >
+          <SubMenu key="customer" title={<span><Icon type="mail" /><span>客户数据管理</span></span>}>
+            <Menu.Item key="customer_info">客户信息
+              <Link to="customer"/>
+            </Menu.Item>
+          </SubMenu>
           <SubMenu key="account" title={<span><Icon type="mail" /><span>账号管理</span></span>}>
             <Menu.Item key="individual">个人号
               <Link to="individual"/>
@@ -52,12 +57,6 @@ class Container extends Component {
           <Menu.Item key="biz_tag">
             <Icon type="setting" /><span className="nav-text">服务号标签管理</span>
           </Menu.Item>
-
-          <SubMenu key="commend" title={<span><Icon type="laptop" /><span>推荐位管理</span></span>}>
-            <Menu.Item key="ipcommend">重点推荐位</Menu.Item>
-            <Menu.Item key="spcommend">特别推荐位</Menu.Item>
-            <Menu.Item key="TVcommend">TV首页推荐位</Menu.Item>
-          </SubMenu>
 
           <SubMenu key="movie" title={<span><Icon type="laptop" /><span>影视分类和视频</span></span>}>
             <Menu.Item key="movie_1">VR视频</Menu.Item>
