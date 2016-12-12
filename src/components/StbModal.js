@@ -66,6 +66,22 @@ class StbModal extends React.Component {
         })
     };
 
+    checkAge = (rule, value, callback)=> {
+        if (value && !/^[\d]{1,3}$/.test(value)){
+            callback(new Error('请输入正确年龄'));
+        } else {
+            callback();
+        }
+    };
+
+    checkMobile = (rule, value, callback)=> {
+        if (value && !/^1[3|4|5|7|8][0-9]{9}$/.test(value)) {
+            callback(new Error('请输入正确的手机号'));
+        } else {
+            callback();
+        }
+    };
+
     render() {
         const { visible , item } = this.props;
         const { getFieldDecorator } = this.props.form;
@@ -119,7 +135,12 @@ class StbModal extends React.Component {
                                 {...formItemLayout}
                                 label="年龄"
                         >
-                            {getFieldDecorator('age', { initialValue: item.age })(
+                            {getFieldDecorator('age', {
+                                initialValue: item.age,
+                                rules: [
+                                    { validator: this.checkAge },
+                                ],
+                            })(
                                     <Input type="number"/>
                             )}
                         </FormItem>
@@ -135,7 +156,12 @@ class StbModal extends React.Component {
                                 {...formItemLayout}
                                 label="手机"
                         >
-                            {getFieldDecorator('mobile', { initialValue: item.mobile })(
+                            {getFieldDecorator('mobile', {
+                                initialValue: item.mobile,
+                                rules: [
+                                    { validator: this.checkMobile },
+                                ],
+                            })(
                                     <Input type="number"/>
                             )}
                         </FormItem>
