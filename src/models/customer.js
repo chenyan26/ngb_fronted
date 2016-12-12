@@ -14,7 +14,7 @@ export default {
     // current: 1,
     currentItem: {},
     modalVisible: false,
-    newModal: true,
+    newModal: true, //是否新建
   },
 
   subscriptions: {

@@ -1,13 +1,34 @@
 /**
- * Created by echo on 2016/12/9.
+ * Created by echo on 2016/12/12.
  */
 
 import React, { Component, PropTypes } from 'react';
-import { Button, Modal, Form, Input , Select} from 'antd';
+import { Button, Modal, Form, Input , Select, DatePicker} from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-class CustomerModal extends React.Component {
+import moment from 'moment';
+
+// 推荐在入口文件全局设置 locale
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
+
+class StbModal extends React.Component {
+
+    state = {
+        buy_date: "2016-01-01",
+        activate_date: "2016-01-01"
+    };
+
+    componentWillMount() {
+        const { isEmpty, item } = this.props;
+        if (!isEmpty) {
+            this.setState({
+                buy_date: item.buy_date,
+                activate_date: item.activate_date
+            })
+        }
+    }
 
     handleCancel = ()=> {
         const { onCancel } = this.props;
@@ -21,36 +42,37 @@ class CustomerModal extends React.Component {
             if (errors) {
                 return;
             }
-            const data = { ...getFieldsValue(), key: item.key , id: item.id};
+            const data = { ...getFieldsValue(),
+                id: item.id,
+                buy_date: this.state.buy_date,
+                activate_date: this.state.activate_date
+            };
             console.log("提交id："+ data.id + "名字：" + data.name);
+            console.log("购买日期："+ this.state.buy_date);
+            console.log("激活日期："+ this.state.activate_date);
             onOk(data);
         });
     };
 
-    checkAge = (rule, value, callback)=> {
-        if (value && !/^[\d]{1,3}$/.test(value)){
-            callback(new Error('请输入正确年龄'));
-        } else {
-            callback();
-        }
+    handleBuyDateChange = (date, dateString)=> {
+        this.setState({
+            buy_date: dateString
+        })
     };
 
-    checkMobile = (rule, value, callback)=> {
-        if (value && !/^1[3|4|5|7|8][0-9]{9}$/.test(value)) {
-            callback(new Error('请输入正确的手机号'));
-        } else {
-            callback();
-        }
+    handleActivateDateChange = (date, dateString)=> {
+        this.setState({
+            activate_date: dateString
+        })
     };
 
     render() {
-        const { visible , item} = this.props;
+        const { visible , item } = this.props;
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: { span: 6 },
             wrapperCol: { span: 14 },
         };
-
         return (
                 <Modal  visible={visible}
                         title="客户信息"
@@ -76,7 +98,7 @@ class CustomerModal extends React.Component {
                             {getFieldDecorator('name', {
                                 initialValue: item.name,
                                 rules: [
-                                    { required: true, message: '姓名不能为空' },
+                                    { required: true, message: '不能为空' },
                                 ],
                             })(
                                     <Input type="text"/>
@@ -97,12 +119,7 @@ class CustomerModal extends React.Component {
                                 {...formItemLayout}
                                 label="年龄"
                         >
-                            {getFieldDecorator('age', {
-                                initialValue: item.age,
-                                rules: [
-                                    { validator: this.checkAge },
-                                ],
-                                })(
+                            {getFieldDecorator('age', { initialValue: item.age })(
                                     <Input type="number"/>
                             )}
                         </FormItem>
@@ -118,12 +135,7 @@ class CustomerModal extends React.Component {
                                 {...formItemLayout}
                                 label="手机"
                         >
-                            {getFieldDecorator('mobile', {
-                                initialValue: item.mobile,
-                                rules: [
-                                    { validator: this.checkMobile },
-                                ],
-                            })(
+                            {getFieldDecorator('mobile', { initialValue: item.mobile })(
                                     <Input type="number"/>
                             )}
                         </FormItem>
@@ -135,18 +147,33 @@ class CustomerModal extends React.Component {
                                     <Input type="number"/>
                             )}
                         </FormItem>
+                        <FormItem
+                                {...formItemLayout}
+                                label="购买日期"
+                        >
+                            <DatePicker defaultValue={moment(this.state.buy_date, 'YYYY-MM-DD')}
+                                        onChange={this.handleBuyDateChange}/>
+                        </FormItem>
+                        <FormItem
+                                {...formItemLayout}
+                                label="激活日期"
+                        >
+                            <DatePicker defaultValue={moment(this.state.activate_date, 'YYYY-MM-DD')}
+                                        onChange={this.handleActivateDateChange}/>
+                        </FormItem>
                     </Form>
                 </Modal>
         );
     }
 }
 
-CustomerModal.propTypes = {
+StbModal.propTypes = {
     visible: PropTypes.bool.isRequired,
     item: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onOk: PropTypes.func.isRequired,
     form: PropTypes.object.isRequired,
+    isEmpty: PropTypes.bool.isRequired,
 };
 
-export default Form.create()(CustomerModal);
+export default Form.create()(StbModal);

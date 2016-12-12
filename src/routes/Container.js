@@ -19,14 +19,14 @@ class Container extends Component {
     this.setState({
       collapse: !this.state.collapse,
     });
-  }
+  };
 
   handleNavMenuClick = (e) => {
     console.log('click ', e);
     this.setState({
       currentNavMenu: e.key,
     });
-  }
+  };
 
   render() {
     const collapse = this.state.collapse;
@@ -37,14 +37,37 @@ class Container extends Component {
         <div className="ant-layout-logo">后台管理平台</div>
         <Menu mode="inline"
               theme="light"
-              defaultOpenKeys={['customer','account','movie']}
+              defaultOpenKeys={['customer','terminal','terminal_action']}
               defaultSelectedKeys={['customer_info']}
         >
-          <SubMenu key="customer" title={<span><Icon type="mail" /><span>客户数据管理</span></span>}>
+
+          <SubMenu key="customer" title={<span><Icon type="user" /><span>客户数据管理</span></span>}>
             <Menu.Item key="customer_info">客户信息
               <Link to="customer"/>
             </Menu.Item>
           </SubMenu>
+
+          <SubMenu key="terminal" title={<span><Icon type="laptop" /><span>终端数据管理</span></span>}>
+            <Menu.Item key="stb">机顶盒终端
+              <Link to="stb"/>
+            </Menu.Item>
+            <Menu.Item key="mobile">移动终端
+              <Link to="mobile"/>
+            </Menu.Item>
+
+          </SubMenu>
+          <SubMenu key="terminal_action" title={<span><Icon type="appstore" /><span>终端行为数据管理</span></span>}>
+            <Menu.Item key="online_status">在线状态
+              <Link to="online_status"/>
+            </Menu.Item>
+            <Menu.Item key="call_record">通话记录
+              <Link to="call_record"/>
+            </Menu.Item>
+            <Menu.Item key="on_demand_record">点播记录
+              <Link to="on_demand_record"/>
+            </Menu.Item>
+          </SubMenu>
+
           <SubMenu key="account" title={<span><Icon type="mail" /><span>账号管理</span></span>}>
             <Menu.Item key="individual">个人号
               <Link to="individual"/>
@@ -54,15 +77,6 @@ class Container extends Component {
             </Menu.Item>
           </SubMenu>
 
-          <Menu.Item key="biz_tag">
-            <Icon type="setting" /><span className="nav-text">服务号标签管理</span>
-          </Menu.Item>
-
-          <SubMenu key="movie" title={<span><Icon type="laptop" /><span>影视分类和视频</span></span>}>
-            <Menu.Item key="movie_1">VR视频</Menu.Item>
-            <Menu.Item key="movie_2">好莱坞</Menu.Item>
-            <Menu.Item key="movie_3">院线大片</Menu.Item>
-          </SubMenu>
         </Menu>
 
         <div className="ant-aside-action" onClick={this.onCollapseChange}>
@@ -116,22 +130,9 @@ class Container extends Component {
 Container.propTypes = {
 };
 
-
-/*
-const mapStateToProps = (state) => {
-  const {user, allowRegister, menuItems} = state.app;
-
-  return {
-      user: user,
-      allowRegister: allowRegister,
-      menuItems: menuItems
-  };
-};
-*/
-
 const mapStateToProps = (state) => ({
 	user: state.app.user,
-  role: state.app.role,
+    role: state.app.role,
 	allowRegister: state.app.allowRegister,
 	menuItems: state.app.menuItems
 });

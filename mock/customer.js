@@ -53,7 +53,7 @@ module.exports = {
 	// },
 
 
-	'GET /customers': function (req, res) {
+	'GET /customer': function (req, res) {
 		res.json({
 			ok: true,
 			err: null,
@@ -67,7 +67,7 @@ module.exports = {
 		});
 	},
 
-	'DELETE /customers': function (req, res) {
+	'DELETE /customer': function (req, res) {
 		const { ids } = qs.parse(req.body);
 		console.log(`删除数量:-------- ${ids}`);
 
@@ -85,7 +85,7 @@ module.exports = {
 		});
 	},
 
-	'POST /customers': function (req, res) {
+	'POST /customer': function (req, res) {
 		const item = qs.parse(req.body);
 		const lastId = customer[customer.length - 1].id;
 		customer.push({
@@ -107,7 +107,7 @@ module.exports = {
 		});
 	},
 
-	'PUT /customers': function (req, res) {
+	'PUT /customer': function (req, res) {
 		const item = qs.parse(req.body);
 		let index = 0;
 		customer.map((obj, i)=> {

@@ -8,11 +8,11 @@ import qs from 'qs';
 // }
 
 export async function query() {
-	return request(`/customers`);
+	return request(`/customer`);
 }
 
 export async function remove(params) {
-	return request('/customers', {
+	return request('/customer', {
 		method: 'delete',
 		// headers: {
 		// 	/*Must have this to make Nutz backend recognize.*/
@@ -23,14 +23,14 @@ export async function remove(params) {
 }
 
 export async function create(params) {
-	return request('/customers', {
+	return request('/customer', {
 		method: 'post',
 		body: qs.stringify(params),
 	});
 }
 
 export async function update(params) {
-	return request('/customers', {
+	return request('/customer', {
 		method: 'put',
 		body: qs.stringify(params),
 	});

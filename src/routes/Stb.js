@@ -1,14 +1,14 @@
 /**
- * Created by echo on 2016/12/9.
+ * Created by echo on 2016/12/12.
  */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'dva';
 import { Button, Table, Modal } from 'antd';
 
-import styles from './Customer.less';
-import CustomerModal from '../components/CustomerModal';
+import styles from './Stb.less';
+import StbModal from '../components/StbModal';
 
-class Customer extends React.Component {
+class Stb extends React.Component {
 
     state = {
         selectedRows: [],
@@ -18,7 +18,7 @@ class Customer extends React.Component {
     componentWillMount() {
         const { dispatch } = this.props;
         dispatch({
-            type: 'customer/query',
+            type: 'stb/query',
         });
     }
 
@@ -27,36 +27,35 @@ class Customer extends React.Component {
     renderModal = ()=> {
         const { modalVisible , newModal, currentItem, dispatch} = this.props;
         if (modalVisible) {
-            // const submitStatue = this.state.mobile ? "" : "disabled";
-
-            const customerModalProps = {
+            const stbModalProps = {
                 item: newModal ? {} : currentItem,
+                isEmpty: newModal,
                 visible: modalVisible,
 
                 onOk(data) {
                     if (newModal) {
                         console.log("提交新建");
                         dispatch({
-                            type: 'customer/create',
+                            type: 'stb/create',
                             payload: data,
                         });
                     } else {
                         console.log("提交编辑");
                         dispatch({
-                            type: 'customer/update',
+                            type: 'stb/update',
                             payload: data,
                         });
                     }
                 },
                 onCancel() {
                     dispatch({
-                        type: 'customer/hideModal',
+                        type: 'stb/hideModal',
                     });
                 },
             };
 
             return (
-                    <CustomerModal {...customerModalProps}/>
+                    <StbModal {...stbModalProps}/>
             )
         }
     };
@@ -66,7 +65,7 @@ class Customer extends React.Component {
     onAdd = () => {
         const { dispatch } = this.props;
         dispatch({
-            type: 'customer/showModal',
+            type: 'stb/showModal',
             payload: {
                 newModal: true,
             },
@@ -77,7 +76,7 @@ class Customer extends React.Component {
         console.log(record);
         const { dispatch } = this.props;
         dispatch({
-            type: 'customer/showModal',
+            type: 'stb/showModal',
             payload: {
                 newModal: false,
                 currentItem: record,
@@ -103,7 +102,7 @@ class Customer extends React.Component {
             selectedRows: []
         });
         dispatch({
-            type: 'customer/delete',
+            type: 'stb/delete',
             payload:  {ids: idArr}
         });
     };
@@ -126,7 +125,7 @@ class Customer extends React.Component {
         }, {
             title: '年龄',
             dataIndex: 'age',
-            width: 40,
+            width: 50,
         }, {
             title: '地址',
             dataIndex: 'addr',
@@ -134,20 +133,24 @@ class Customer extends React.Component {
         }, {
             title: '手机',
             dataIndex: 'mobile',
-            width: 100,
+            width: 120,
         }, {
             title: '电话',
             dataIndex: 'tel',
-            width: 100,
+            width: 120,
         }, {
-            title: 'STB状态',
-            dataIndex: 'stb_status',
+            title: '状态',
+            dataIndex: 'status',
             width: 70,
         }, {
-            title: 'Mobile状态',
-            dataIndex: 'mobile_status',
-            width: 70,
+            title: '购买日期',
+            dataIndex: 'buy_date',
+            width: 120,
         }, {
+            title: '激活日期',
+            dataIndex: 'activate_date',
+            width: 120,
+        },{
             title: '操作',
             key: 'edit',
             width: 50,
@@ -161,12 +164,10 @@ class Customer extends React.Component {
         let data = [];
         const { list, loading } = this.props;
 
-        const stbs = { 0 : "未绑定", 1 : "未激活", 2 : "激活" };
-        const mobs = { 0 : "未绑定", 1 : "僵死", 2 : "活跃" };
+        const status = { 0: "未激活", 1 : "已激活" };
 
         list.map((obj, i) => {
-            const {[obj.stb_status] : ss} = stbs;
-            const {[obj.mobile_status] : ms} = mobs;
+            const {[obj.status] : ss} = status;
 
             data[i] = {
                 key: i,
@@ -177,8 +178,9 @@ class Customer extends React.Component {
                 addr: obj.addr,
                 mobile: obj.mobile,
                 tel: obj.tel,
-                stb_status: ss,
-                mobile_status: ms
+                buy_date: obj.buy_date,
+                activate_date: obj.activate_date,
+                status: ss
             }
         });
 
@@ -234,7 +236,7 @@ class Customer extends React.Component {
     }
 }
 
-Customer.propTypes = {
+Stb.propTypes = {
     list: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
     modalVisible: PropTypes.bool.isRequired,
@@ -244,12 +246,12 @@ Customer.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        list : state.customer.list,
-        loading : state.customer.loading,
-        modalVisible: state.customer.modalVisible,
-        newModal: state.customer.newModal,
-        currentItem: state.customer.currentItem,
+        list : state.stb.list,
+        loading : state.stb.loading,
+        modalVisible: state.stb.modalVisible,
+        newModal: state.stb.newModal,
+        currentItem: state.stb.currentItem,
     }
 }
 
-export default connect(mapStateToProps)(Customer)
+export default connect(mapStateToProps)(Stb)
