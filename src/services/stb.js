@@ -5,12 +5,12 @@ import request from '../utils/request';
 import qs from 'qs';
 
 export async function query() {
-    return request(`/stb`);
+    return request(`/admin/getStb`);
 }
 
 export async function remove(params) {
-    return request('/stb', {
-        method: 'delete',
+    return request('/admin/deleteStb', {
+        method: 'post',
         // headers: {
         // 	/*Must have this to make Nutz backend recognize.*/
         // 	'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -20,15 +20,8 @@ export async function remove(params) {
 }
 
 export async function create(params) {
-    return request('/stb', {
+    return request('/admin/createStb', {
         method: 'post',
-        body: qs.stringify(params),
-    });
-}
-
-export async function update(params) {
-    return request('/stb', {
-        method: 'put',
         body: qs.stringify(params),
     });
 }

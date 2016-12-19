@@ -12,68 +12,39 @@ for (let i = 1; i < 71; i++) {
         serial_number: '12343554'+i,
         ca_number: 'ca3254655'+i,
         system_version: 'v1.2',
+        register_date:'2016-10-14'
     });
 }
 
 module.exports = {
-    'GET /stb': function (req, res) {
+    'GET /admin/getStb': function (req, res) {
         res.json({
-            ok: true,
-            err: null,
+            code: 0,
             data: stb
         });
     },
 
-    'DELETE /stb': function (req, res) {
+    'POST /admin/createStb': function (req, res) {
+        const item = qs.parse(req.body);
+        const lastId = Number(stb[stb.length - 1].id)+ 1;
+        res.json({
+            code: 0,
+            data: {id:lastId,
+                   serial_number:item.serial_number}
+        });
+    },
+
+    'POST /admin/deleteStb': function (req, res) {
         const { ids } = qs.parse(req.body);
         console.log(`删除数量:-------- ${ids}`);
 
-        for (let i = 0; i < ids.length; i ++) {
-            stb = stb.filter(s => s.id != ids[i]);
-        }
-
+        // for (let i = 0; i < ids.length; i ++) {
+        //     stb = stb.filter(s => s.id != ids[i]);
+        // }
 
         res.json({
-            ok: true,
-            err: null,
-            data: stb
+            code: 0
+            // data: stb[stb.length - 1]
         });
-    },
-
-    'POST /stb': function (req, res) {
-        const item = qs.parse(req.body);
-        const lastId = stb[stb.length - 1].id;
-        stb.push({
-            id: `${ Number(lastId)+ 1}`,
-            serial_number: item.serial_number,
-            ca_number: item.ca_number,
-            system_version: item.system_version,
-        });
-        res.json({
-            ok: true,
-            err: null,
-            data: stb[stb.length - 1]
-        });
-    },
-
-    'PUT /stb': function (req, res) {
-        const item = qs.parse(req.body);
-        let index = 0;
-        stb.map((obj, i)=> {
-            if (obj.id == item.id) {
-                obj.name = item.name;
-                obj.serial_number = item.serial_number;
-                obj.ca_number = item.ca_number;
-                obj.system_version = item.system_version;
-
-                index = i;
-            }
-        });
-        res.json({
-            ok: true,
-            err: null,
-            data: stb[index]
-        });
-    },
-
+    }
 };

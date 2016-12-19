@@ -17,6 +17,7 @@ class Stb extends React.Component {
 
     componentWillMount() {
         const { dispatch } = this.props;
+        console.log("Stb-componentWillMount");
         dispatch({
             type: 'stb/query',
         });
