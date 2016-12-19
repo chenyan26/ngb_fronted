@@ -3,32 +3,10 @@
  */
 
 import React, { Component, PropTypes } from 'react';
-import { Button, Modal, Form, Input , Select, DatePicker} from 'antd';
+import { Button, Modal, Form, Input } from 'antd';
 const FormItem = Form.Item;
-const Option = Select.Option;
-
-import moment from 'moment';
-
-// 推荐在入口文件全局设置 locale
-import 'moment/locale/zh-cn';
-moment.locale('zh-cn');
 
 class StbModal extends React.Component {
-
-    state = {
-        buy_date: "2016-01-01",
-        activate_date: "2016-01-01"
-    };
-
-    componentWillMount() {
-        const { isEmpty, item } = this.props;
-        if (!isEmpty) {
-            this.setState({
-                buy_date: item.buy_date,
-                activate_date: item.activate_date
-            })
-        }
-    }
 
     handleCancel = ()=> {
         const { onCancel } = this.props;
@@ -43,43 +21,11 @@ class StbModal extends React.Component {
                 return;
             }
             const data = { ...getFieldsValue(),
-                id: item.id,
-                buy_date: this.state.buy_date,
-                activate_date: this.state.activate_date
+                id: item.id
             };
-            console.log("提交id："+ data.id + "名字：" + data.name);
-            console.log("购买日期："+ this.state.buy_date);
-            console.log("激活日期："+ this.state.activate_date);
+            console.log("提交id："+ data.id + "CA号：" + data.ca_number);
             onOk(data);
         });
-    };
-
-    handleBuyDateChange = (date, dateString)=> {
-        this.setState({
-            buy_date: dateString
-        })
-    };
-
-    handleActivateDateChange = (date, dateString)=> {
-        this.setState({
-            activate_date: dateString
-        })
-    };
-
-    checkAge = (rule, value, callback)=> {
-        if (value && !/^[\d]{1,3}$/.test(value)){
-            callback(new Error('请输入正确年龄'));
-        } else {
-            callback();
-        }
-    };
-
-    checkMobile = (rule, value, callback)=> {
-        if (value && !/^1[3|4|5|7|8][0-9]{9}$/.test(value)) {
-            callback(new Error('请输入正确的手机号'));
-        } else {
-            callback();
-        }
     };
 
     render() {
@@ -91,7 +37,7 @@ class StbModal extends React.Component {
         };
         return (
                 <Modal  visible={visible}
-                        title="客户信息"
+                        title="机顶盒终端信息"
                         maskClosable={false}
                         onOk={this.handleOk}
                         onCancel={this.handleCancel}
@@ -108,11 +54,11 @@ class StbModal extends React.Component {
                     <Form horizontal onSubmit={this.handleSubmit}>
                         <FormItem
                                 {...formItemLayout}
-                                label="姓名"
+                                label="序列号"
                                 hasFeedback
                         >
-                            {getFieldDecorator('name', {
-                                initialValue: item.name,
+                            {getFieldDecorator('serial_number', {
+                                initialValue: item.serial_number,
                                 rules: [
                                     { required: true, message: '不能为空' },
                                 ],
@@ -122,70 +68,19 @@ class StbModal extends React.Component {
                         </FormItem>
                         <FormItem
                                 {...formItemLayout}
-                                label="性别"
+                                label="CA号"
                         >
-                            {getFieldDecorator('gender', { initialValue: item.gender })(
-                                    <Select>
-                                        <Option value="0">男</Option>
-                                        <Option value="1">女</Option>
-                                    </Select>
-                            )}
-                        </FormItem>
-                        <FormItem
-                                {...formItemLayout}
-                                label="年龄"
-                        >
-                            {getFieldDecorator('age', {
-                                initialValue: item.age,
-                                rules: [
-                                    { validator: this.checkAge },
-                                ],
-                            })(
-                                    <Input type="number"/>
-                            )}
-                        </FormItem>
-                        <FormItem
-                                {...formItemLayout}
-                                label="地址"
-                        >
-                            {getFieldDecorator('addr', { initialValue: item.addr })(
+                            {getFieldDecorator('ca_number', { initialValue: item.ca_number })(
                                     <Input type="text"/>
                             )}
                         </FormItem>
                         <FormItem
                                 {...formItemLayout}
-                                label="手机"
+                                label="系统版本"
                         >
-                            {getFieldDecorator('mobile', {
-                                initialValue: item.mobile,
-                                rules: [
-                                    { validator: this.checkMobile },
-                                ],
-                            })(
-                                    <Input type="number"/>
+                            {getFieldDecorator('system_version', { initialValue: item.system_version })(
+                                    <Input type="text"/>
                             )}
-                        </FormItem>
-                        <FormItem
-                                {...formItemLayout}
-                                label="电话"
-                        >
-                            {getFieldDecorator('tel', { initialValue: item.tel })(
-                                    <Input type="number"/>
-                            )}
-                        </FormItem>
-                        <FormItem
-                                {...formItemLayout}
-                                label="购买日期"
-                        >
-                            <DatePicker defaultValue={moment(this.state.buy_date, 'YYYY-MM-DD')}
-                                        onChange={this.handleBuyDateChange}/>
-                        </FormItem>
-                        <FormItem
-                                {...formItemLayout}
-                                label="激活日期"
-                        >
-                            <DatePicker defaultValue={moment(this.state.activate_date, 'YYYY-MM-DD')}
-                                        onChange={this.handleActivateDateChange}/>
                         </FormItem>
                     </Form>
                 </Modal>

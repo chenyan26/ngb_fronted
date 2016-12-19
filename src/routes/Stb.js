@@ -115,42 +115,18 @@ class Stb extends React.Component {
 
     renderTable = () => {
         const columns = [{
-            title: '姓名',
-            dataIndex: 'name',
+            title: '序列号',
+            dataIndex: 'serial_number',
             width: 80,
         }, {
-            title: '性别',
-            dataIndex: 'gender',
-            width: 50,
+            title: 'CA号',
+            dataIndex: 'ca_number',
+            width: 80,
         }, {
-            title: '年龄',
-            dataIndex: 'age',
-            width: 50,
+            title: '系统版本',
+            dataIndex: 'system_version',
+            width: 80,
         }, {
-            title: '地址',
-            dataIndex: 'addr',
-            width: 200,
-        }, {
-            title: '手机',
-            dataIndex: 'mobile',
-            width: 120,
-        }, {
-            title: '电话',
-            dataIndex: 'tel',
-            width: 120,
-        }, {
-            title: '状态',
-            dataIndex: 'status',
-            width: 70,
-        }, {
-            title: '购买日期',
-            dataIndex: 'buy_date',
-            width: 120,
-        }, {
-            title: '激活日期',
-            dataIndex: 'activate_date',
-            width: 120,
-        },{
             title: '操作',
             key: 'edit',
             width: 50,
@@ -164,23 +140,15 @@ class Stb extends React.Component {
         let data = [];
         const { list, loading } = this.props;
 
-        const status = { 0: "未激活", 1 : "已激活" };
-
         list.map((obj, i) => {
             const {[obj.status] : ss} = status;
 
             data[i] = {
                 key: i,
                 id: obj.id,
-                name: obj.name,
-                gender: obj.gender,
-                age: obj.age,
-                addr: obj.addr,
-                mobile: obj.mobile,
-                tel: obj.tel,
-                buy_date: obj.buy_date,
-                activate_date: obj.activate_date,
-                status: ss
+                serial_number: obj.serial_number,
+                ca_number: obj.ca_number,
+                system_version: obj.system_version,
             }
         });
 
@@ -198,13 +166,13 @@ class Stb extends React.Component {
                     <Button type="primary"
                             className={styles.add_btn}
                             onClick={this.onAdd}>
-                        新增客户
+                        新增机顶盒终端
                     </Button>
                     <Button type="primary"
                             className={styles.delete_btn}
                             disabled = {this.state.selectedRows.length ? false : true}
                             onClick={this.showDeleteConfirm}>
-                        删除客户
+                        删除机顶盒终端
                     </Button>
                     <Table rowSelection={rowSelection}
                            columns={columns}
@@ -229,7 +197,7 @@ class Stb extends React.Component {
                            onOk={this.onDelete}
                            onCancel={this.handleConfirmCancle}
                            okText="确定" cancelText="取消">
-                        <p className={styles.confirm_p}>确定要删除选中的客户信息吗？</p>
+                        <p className={styles.confirm_p}>确定要删除选中的机顶盒终端吗？</p>
                     </Modal>
                 </div>
         );

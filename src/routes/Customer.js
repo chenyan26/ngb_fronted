@@ -124,30 +124,26 @@ class Customer extends React.Component {
             dataIndex: 'gender',
             width: 50,
         }, {
+            title: '身份证号',
+            dataIndex: 'identify_number',
+            width: 150,
+        }, {
             title: '年龄',
             dataIndex: 'age',
             width: 40,
         }, {
             title: '地址',
-            dataIndex: 'addr',
+            dataIndex: 'address',
             width: 200,
         }, {
             title: '手机',
             dataIndex: 'mobile',
             width: 100,
         }, {
-            title: '电话',
-            dataIndex: 'tel',
+            title: '录入日期',
+            dataIndex: 'input_date',
             width: 100,
-        }, {
-            title: 'STB状态',
-            dataIndex: 'stb_status',
-            width: 70,
-        }, {
-            title: 'Mobile状态',
-            dataIndex: 'mobile_status',
-            width: 70,
-        }, {
+        },  {
             title: '操作',
             key: 'edit',
             width: 50,
@@ -165,20 +161,21 @@ class Customer extends React.Component {
         const mobs = { 0 : "未绑定", 1 : "僵死", 2 : "活跃" };
 
         list.map((obj, i) => {
-            const {[obj.stb_status] : ss} = stbs;
-            const {[obj.mobile_status] : ms} = mobs;
+          //  const {[obj.stb_status] : ss} = stbs;
+          //  const {[obj.mobile_status] : ms} = mobs;
 
             data[i] = {
                 key: i,
                 id: obj.id,
                 name: obj.name,
+                identify_number: obj.identify_number,
                 gender: obj.gender,
                 age: obj.age,
-                addr: obj.addr,
+                address: obj.address,
                 mobile: obj.mobile,
-                tel: obj.tel,
-                stb_status: ss,
-                mobile_status: ms
+                input_date: obj.input_date,
+               // stb_status: ss,
+               // mobile_status: ms
             }
         });
 

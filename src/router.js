@@ -19,7 +19,7 @@ export default function({ history }) {
 			<Route path="customer" breadcrumbName="客户信息" component={Customer} />
 			<Route path="stb" breadcrumbName="机顶盒终端" component={Stb} />
 
-			<Route path="individual" breadcrumbName="个人号管理" component={Individual} />
+			{/*<Route path="individual" breadcrumbName="个人号管理" component={Individual} />*/}
 
 	    	{/*<Route path="dashboard" breadcrumbName="控制面板" component={Dashboard} />*/}
 	    </Route>

@@ -37,7 +37,7 @@ class Container extends Component {
         <div className="ant-layout-logo">后台管理平台</div>
         <Menu mode="inline"
               theme="light"
-              defaultOpenKeys={['customer','terminal','terminal_action']}
+              defaultOpenKeys={['customer', 'user', 'terminal', 'terminal_action', 'content_mg']}
               defaultSelectedKeys={['customer_info']}
         >
 
@@ -47,33 +47,36 @@ class Container extends Component {
             </Menu.Item>
           </SubMenu>
 
+          <SubMenu key="user" title={<span><Icon type="user" /><span>用户数据管理</span></span>}>
+            <Menu.Item key="user_stb">机顶盒用户信息
+              <Link to="user_stb"/>
+            </Menu.Item>
+            <Menu.Item key="user_mobile">手机用户信息
+              <Link to="user_mobile"/>
+            </Menu.Item>
+          </SubMenu>
+
           <SubMenu key="terminal" title={<span><Icon type="laptop" /><span>终端数据管理</span></span>}>
             <Menu.Item key="stb">机顶盒终端
               <Link to="stb"/>
             </Menu.Item>
-            <Menu.Item key="mobile">移动终端
-              <Link to="mobile"/>
-            </Menu.Item>
 
           </SubMenu>
           <SubMenu key="terminal_action" title={<span><Icon type="appstore" /><span>终端行为数据管理</span></span>}>
-            <Menu.Item key="online_status">在线状态
-              <Link to="online_status"/>
+            <Menu.Item key="stb_record">机顶盒使用记录
+              <Link to="stb_record"/>
             </Menu.Item>
-            <Menu.Item key="call_record">通话记录
-              <Link to="call_record"/>
+            <Menu.Item key="vs_record">通信App使用记录
+              <Link to="vs_record"/>
             </Menu.Item>
-            <Menu.Item key="on_demand_record">点播记录
-              <Link to="on_demand_record"/>
+            <Menu.Item key="vod_record">VoD点播记录
+              <Link to="vod_record"/>
             </Menu.Item>
           </SubMenu>
 
-          <SubMenu key="account" title={<span><Icon type="mail" /><span>账号管理</span></span>}>
-            <Menu.Item key="individual">个人号
-              <Link to="individual"/>
-            </Menu.Item>
-            <Menu.Item key="biz">服务号
-              <Link to="biz"/>
+          <SubMenu key="content_mg" title={<span><Icon type="appstore" /><span>内容管理</span></span>}>
+            <Menu.Item key="content">内容信息
+              <Link to="content"/>
             </Menu.Item>
           </SubMenu>
 

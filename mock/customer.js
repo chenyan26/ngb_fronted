@@ -10,13 +10,12 @@ for (let i = 1; i < 71; i++) {
 	customer.push({
 		id: i,
 		name: '用户名'+i,
+		identify_number: '4343534532'+i%5,
 		gender: `${i%3 ? '男' : '女'}`,
 		age: 23,
-		addr: '安徽省黄山市光明顶125号',
+		address: '安徽省黄山市光明顶125号',
 		mobile: '13812345678',
-		tel: '073189776543',
-		stb_status: i%3,
-		mobile_status: i%3
+		input_date: '2016-05-04',
 	});
 }
 
@@ -91,13 +90,12 @@ module.exports = {
 		customer.push({
 			id: `${ Number(lastId)+ 1}`,
 			name: item.name,
+			identify_number: item.identify_number,
 			gender: item.gender,
 			age: item.age,
-			addr: item.addr,
+			address: item.address,
 			mobile: item.mobile,
-			tel: item.tel,
-			stb_status: 0,
-			mobile_status: 0
+			input_date: item.input_date,
 		});
 		// customer = customer.filter(user => user.id !== deleteItem.id);
 		res.json({
@@ -113,13 +111,12 @@ module.exports = {
 		customer.map((obj, i)=> {
 			if (obj.id == item.id) {
 				obj.name = item.name;
+				obj.identify_number = item.identify_number;
 				obj.gender = item.gender;
 				obj.age = item.age;
-				obj.addr = item.addr;
+				obj.address = item.address;
 				obj.mobile = item.mobile;
-				obj.tel = item.tel;
-				obj.stb_status = 0;
-				obj.mobile_status = 0;
+				obj.input_date = item.input_date;
 
 				index = i;
 			}

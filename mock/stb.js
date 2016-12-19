@@ -9,15 +9,9 @@ let stb = [];
 for (let i = 1; i < 71; i++) {
     stb.push({
         id: i,
-        name: '用户名'+i,
-        gender: `${i%3 ? '男' : '女'}`,
-        age: 23,
-        addr: '湖南省长沙市天心区南湖路125号',
-        mobile: '13812345678',
-        tel: '073189776543',
-        buy_date: '2015-05-04',
-        activate_date: '2015-08-03',
-        status: i%2
+        serial_number: '12343554'+i,
+        ca_number: 'ca3254655'+i,
+        system_version: 'v1.2',
     });
 }
 
@@ -51,15 +45,9 @@ module.exports = {
         const lastId = stb[stb.length - 1].id;
         stb.push({
             id: `${ Number(lastId)+ 1}`,
-            name: item.name,
-            gender: item.gender,
-            age: item.age,
-            addr: item.addr,
-            mobile: item.mobile,
-            tel: item.tel,
-            buy_date: item.buy_date,
-            activate_date: item.activate_date,
-            status: 0
+            serial_number: item.serial_number,
+            ca_number: item.ca_number,
+            system_version: item.system_version,
         });
         res.json({
             ok: true,
@@ -74,13 +62,9 @@ module.exports = {
         stb.map((obj, i)=> {
             if (obj.id == item.id) {
                 obj.name = item.name;
-                obj.gender = item.gender;
-                obj.age = item.age;
-                obj.addr = item.addr;
-                obj.mobile = item.mobile;
-                obj.tel = item.tel;
-                obj.buy_date = item.buy_date;
-                obj.activate_date = item.activate_date;
+                obj.serial_number = item.serial_number;
+                obj.ca_number = item.ca_number;
+                obj.system_version = item.system_version;
 
                 index = i;
             }

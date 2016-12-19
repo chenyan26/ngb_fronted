@@ -1,6 +1,5 @@
-import pathToRegexp from 'path-to-regexp';
-import { routerRedux } from 'dva/router';
-
+// import pathToRegexp from 'path-to-regexp';
+// import { routerRedux } from 'dva/router';
 import * as service from "../services/customer";
 
 export default {

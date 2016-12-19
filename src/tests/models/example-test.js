@@ -8,15 +8,16 @@ describe('example', () => {
 		describe('fetch', () => {
 			it('should be the same', () => {
 				expect(example.reducers['fetch']({}, { payload: { a: 1 }})).toEqual({ a: 1 });
-			});  		
-		})
+			});
+		});
 
 		describe('foo', () => {
 			it('should be the same', () => {
 				expect(example.reducers['foo']({}, { payload: { a: 1 }})).toEqual({ a: 1 });
-			});  		
+			});
 		})
 
 
 	})
 });
+//"test": "atool-test-mocha ./src/**/*-test.js"
