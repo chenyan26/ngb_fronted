@@ -15,21 +15,18 @@ class StbModal extends React.Component {
 
     handleOk = ()=> {
         const { getFieldsValue, validateFields } = this.props.form;
-        const { onOk, item } = this.props;
+        const { onOk } = this.props;
         validateFields((errors) => {
             if (errors) {
                 return;
             }
-            const data = { ...getFieldsValue(),
-                id: item.id
-            };
-            console.log("提交id："+ data.id + "CA号：" + data.ca_number);
+            const data = { ...getFieldsValue() };
             onOk(data);
         });
     };
 
     render() {
-        const { visible , item } = this.props;
+        const { visible } = this.props;
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: { span: 6 },
@@ -46,39 +43,23 @@ class StbModal extends React.Component {
                                    onClick={this.handleCancel}
                             >取消</Button>,
                             <Button key="submit" type="primary" size="large"
-                                    //  disabled = {this.state.number ? false : true}
                                     onClick={this.handleOk}
                             >提交</Button>
                         ]}
                 >
-                    <Form horizontal onSubmit={this.handleSubmit}>
+                    <Form horizontal="true"
+                          onSubmit={this.handleSubmit}>
                         <FormItem
                                 {...formItemLayout}
                                 label="序列号"
-                                hasFeedback
+                                hasFeedback="true"
                         >
                             {getFieldDecorator('serial_number', {
-                                initialValue: item.serial_number,
+                                initialValue: "",
                                 rules: [
                                     { required: true, message: '不能为空' },
                                 ],
                             })(
-                                    <Input type="text"/>
-                            )}
-                        </FormItem>
-                        <FormItem
-                                {...formItemLayout}
-                                label="CA号"
-                        >
-                            {getFieldDecorator('ca_number', { initialValue: item.ca_number })(
-                                    <Input type="text"/>
-                            )}
-                        </FormItem>
-                        <FormItem
-                                {...formItemLayout}
-                                label="系统版本"
-                        >
-                            {getFieldDecorator('system_version', { initialValue: item.system_version })(
                                     <Input type="text"/>
                             )}
                         </FormItem>
@@ -90,11 +71,9 @@ class StbModal extends React.Component {
 
 StbModal.propTypes = {
     visible: PropTypes.bool.isRequired,
-    item: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onOk: PropTypes.func.isRequired,
     form: PropTypes.object.isRequired,
-    isEmpty: PropTypes.bool.isRequired,
 };
 
 export default Form.create()(StbModal);

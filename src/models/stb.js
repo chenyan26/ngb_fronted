@@ -1,9 +1,6 @@
 /**
  * Created by echo on 2016/12/12.
  */
-// import pathToRegexp from 'path-to-regexp';
-// import { routerRedux } from 'dva/router';
-
 import * as service from "../services/stb";
 
 export default {
@@ -17,7 +14,7 @@ export default {
         // current: 1,
         currentItem: {},
         modalVisible: false,
-        newModal: true, //是否新建
+        errorModalVisible: false,
     },
 
     subscriptions: {
@@ -38,7 +35,6 @@ export default {
                     type: 'querySuccess',
                     payload: response.data,
                 });
-                // yield put(routerRedux.push('/login'));
             }else{
                 yield put({type:'queryFailed', payload:response.code});
             }
@@ -82,6 +78,7 @@ export default {
         showLoading(state) {
             return { ...state, loading: true };
         },
+
         showModal(state, action) {
             return { ...state, ...action.payload, modalVisible: true };
         },
@@ -89,12 +86,15 @@ export default {
             return { ...state, modalVisible: false };
         },
 
+        hideErrorModal(state) {
+            return { ...state, errorModalVisible: false };
+        },
+
         querySuccess(state, { payload }) {
-            // console.log(`reducer - querySuccess: ${payload}`);
             return { ...state, list: payload, loading: false};
         },
         queryFailed(state, { payload }){
-            return { ...state, error: payload, loading: false};
+            return { ...state, error: payload, loading: false, errorModalVisible: true };
         },
 
         createSuccess(state, action) {
@@ -103,7 +103,7 @@ export default {
             return { ...state, list:newList, loading: false };
         },
         createFailed(state, { payload }){
-            return { ...state, error: payload, loading: false};
+            return { ...state, error: payload, loading: false, errorModalVisible: true};
         },
 
         deleteSuccess(state,  { payload }) {
@@ -116,7 +116,7 @@ export default {
             return { ...state, list: stb, loading: false };
         },
         deleteFailed(state, { payload }){
-            return { ...state, error: payload, loading: false};
+            return { ...state, error: payload, loading: false, errorModalVisible: true};
         },
     },
 

@@ -3,7 +3,7 @@
  */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'dva';
-import { Button, Table, Modal } from 'antd';
+import { Button, Table, Modal, Alert } from 'antd';
 
 import styles from './Stb.less';
 import StbModal from '../components/StbModal';
@@ -26,27 +26,16 @@ class Stb extends React.Component {
     //---------------- Modal 相关--------------------
 
     renderModal = ()=> {
-        const { modalVisible , newModal, currentItem, dispatch} = this.props;
+        const { modalVisible, dispatch} = this.props;
         if (modalVisible) {
             const stbModalProps = {
-                item: newModal ? {} : currentItem,
-                isEmpty: newModal,
                 visible: modalVisible,
-
                 onOk(data) {
-                    if (newModal) {
-                        console.log("提交新建");
-                        dispatch({
-                            type: 'stb/create',
-                            payload: data,
-                        });
-                    } else {
-                        console.log("提交编辑");
-                        dispatch({
-                            type: 'stb/update',
-                            payload: data,
-                        });
-                    }
+                    console.log("提交新建");
+                    dispatch({
+                        type: 'stb/create',
+                        payload: data,
+                    });
                 },
                 onCancel() {
                     dispatch({
@@ -67,21 +56,6 @@ class Stb extends React.Component {
         const { dispatch } = this.props;
         dispatch({
             type: 'stb/showModal',
-            payload: {
-                newModal: true,
-            },
-        });
-    };
-
-    onEditItem = (record) => {
-        console.log(record);
-        const { dispatch } = this.props;
-        dispatch({
-            type: 'stb/showModal',
-            payload: {
-                newModal: false,
-                currentItem: record,
-            },
         });
     };
 
@@ -128,21 +102,16 @@ class Stb extends React.Component {
             dataIndex: 'system_version',
             width: 80,
         }, {
-            title: '操作',
-            key: 'edit',
-            width: 50,
-            render: (text, record) => ( //每一个行的信息 data[record.id]
-                    <p>
-                        <a onClick={() => this.onEditItem(record)}>修改</a>
-                    </p>
-            ),
+            title: '激活日期',
+            dataIndex: 'register_date',
+            width: 120,
         }];
 
         let data = [];
         const { list, loading } = this.props;
 
         list.map((obj, i) => {
-            const {[obj.status] : ss} = status;
+            // const {[obj.status] : ss} = status;
 
             data[i] = {
                 key: i,
@@ -150,6 +119,7 @@ class Stb extends React.Component {
                 serial_number: obj.serial_number,
                 ca_number: obj.ca_number,
                 system_version: obj.system_version,
+                register_date: obj.register_date
             }
         });
 
@@ -187,6 +157,26 @@ class Stb extends React.Component {
     };
 
     //----------------render--------------------
+    renderError = ()=> {
+        const { errorModalVisible, dispatch, error } = this.props;
+        if (errorModalVisible) {
+            Modal.error({
+                title: '提示',
+                content: (
+                        <div>
+                            <br/>
+                            <p>请求失败，请重试</p>
+                            <br/>
+                            <p>错误error：{error}</p>
+                        </div>),
+                onOk(){
+                    dispatch({
+                        type: 'stb/hideErrorModal',
+                    });
+                },
+            });
+        }
+    };
 
     render() {
         return (
@@ -200,6 +190,7 @@ class Stb extends React.Component {
                            okText="确定" cancelText="取消">
                         <p className={styles.confirm_p}>确定要删除选中的机顶盒终端吗？</p>
                     </Modal>
+                    {this.renderError()}
                 </div>
         );
     }
@@ -209,8 +200,7 @@ Stb.propTypes = {
     list: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
     modalVisible: PropTypes.bool.isRequired,
-    newModal: PropTypes.bool.isRequired,
-    currentItem: PropTypes.object.isRequired,
+    errorModalVisible: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -218,8 +208,7 @@ function mapStateToProps(state) {
         list : state.stb.list,
         loading : state.stb.loading,
         modalVisible: state.stb.modalVisible,
-        newModal: state.stb.newModal,
-        currentItem: state.stb.currentItem,
+        errorModalVisible: state.stb.errorModalVisible
     }
 }
 
