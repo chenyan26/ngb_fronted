@@ -37,7 +37,7 @@ class Container extends Component {
         <div className="ant-layout-logo">后台管理平台</div>
         <Menu mode="inline"
               theme="light"
-              defaultOpenKeys={['customer', 'user', 'terminal', 'terminal_action', 'content_mg']}
+              defaultOpenKeys={['customer', 'account', 'terminal', 'terminal_action', 'content_mg']}
               defaultSelectedKeys={['customer_info']}
         >
 
@@ -47,12 +47,12 @@ class Container extends Component {
             </Menu.Item>
           </SubMenu>
 
-          <SubMenu key="user" title={<span><Icon type="user" /><span>用户数据管理</span></span>}>
-            <Menu.Item key="user_stb">机顶盒用户信息
-              <Link to="user_stb"/>
+          <SubMenu key="account" title={<span><Icon type="user" /><span>用户数据管理</span></span>}>
+            <Menu.Item key="stb_account">机顶盒用户信息
+              <Link to="stb_account"/>
             </Menu.Item>
-            <Menu.Item key="user_mobile">手机用户信息
-              <Link to="user_mobile"/>
+            <Menu.Item key="mobile_account">手机用户信息
+              <Link to="mobile_account"/>
             </Menu.Item>
           </SubMenu>
 

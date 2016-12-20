@@ -1,14 +1,14 @@
 /**
- * Created by echo on 2016/12/12.
+ * Created by echo on 2016/12/20.
  */
+
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'dva';
 import { Button, Table, Modal } from 'antd';
 
-import styles from './Stb.less';
-import StbModal from '../components/StbModal';
+import styles from './StbAccount.less';
 
-class Stb extends React.Component {
+class StbAccount extends React.Component {
 
     state = {
         selectedRows: [],
@@ -17,47 +17,14 @@ class Stb extends React.Component {
 
     componentWillMount() {
         const { dispatch } = this.props;
-        console.log("Stb-componentWillMount");
+        console.log("StbAccount-componentWillMount");
         dispatch({
-            type: 'stb/query',
+            type: 'account/query',
+            payload: {type: 0}
         });
     }
 
-    //---------------- Modal 相关--------------------
-
-    renderModal = ()=> {
-        const { modalVisible, dispatch} = this.props;
-        if (modalVisible) {
-            const stbModalProps = {
-                visible: modalVisible,
-                onOk(data) {
-                    console.log("提交新建");
-                    dispatch({
-                        type: 'stb/create',
-                        payload: data,
-                    });
-                },
-                onCancel() {
-                    dispatch({
-                        type: 'stb/hideModal',
-                    });
-                },
-            };
-
-            return (
-                    <StbModal {...stbModalProps}/>
-            )
-        }
-    };
-
     //---------------- Table 相关--------------------
-
-    onAdd = () => {
-        const { dispatch } = this.props;
-        dispatch({
-            type: 'stb/showModal',
-        });
-    };
 
     showDeleteConfirm = () => {
         this.setState({
@@ -77,8 +44,11 @@ class Stb extends React.Component {
             selectedRows: []
         });
         dispatch({
-            type: 'stb/delete',
-            payload:  {ids: idArr}
+            type: 'account/delete',
+            payload:  {
+                ids: idArr,
+                type: 0
+            }
         });
     };
 
@@ -90,36 +60,29 @@ class Stb extends React.Component {
 
     renderTable = () => {
         const columns = [{
-            title: '序列号',
-            dataIndex: 'serial_number',
-            width: 80,
-        }, {
-            title: 'CA号',
-            dataIndex: 'ca_number',
-            width: 80,
-        }, {
-            title: '系统版本',
-            dataIndex: 'system_version',
+            title: '克拉号',
+            dataIndex: 'number',
             width: 80,
         }, {
             title: '激活日期',
             dataIndex: 'register_date',
             width: 120,
+        }, {
+            title: '最近一次登录日期',
+            dataIndex: 'lately_date',
+            width: 120,
         }];
 
         let data = [];
-        const { list, loading } = this.props;
+        const { stbList, loading } = this.props;
 
-        list.map((obj, i) => {
-            // const {[obj.status] : ss} = status;
-
+        stbList.map((obj, i) => {
             data[i] = {
                 key: i,
                 id: obj.id,
-                serial_number: obj.serial_number,
-                ca_number: obj.ca_number,
-                system_version: obj.system_version,
-                register_date: obj.register_date
+                number: obj.number,
+                register_date: obj.register_date,
+                lately_date: obj.lately_date
             }
         });
 
@@ -134,11 +97,6 @@ class Stb extends React.Component {
 
         return (
                 <div>
-                    <Button type="primary"
-                            className={styles.add_btn}
-                            onClick={this.onAdd}>
-                        新增机顶盒终端
-                    </Button>
                     <Button type="primary"
                             className={styles.delete_btn}
                             disabled = {this.state.selectedRows.length ? false : true}
@@ -171,7 +129,7 @@ class Stb extends React.Component {
                         </div>),
                 onOk(){
                     dispatch({
-                        type: 'stb/hideErrorModal',
+                        type: 'user/hideErrorModal',
                     });
                 },
             });
@@ -182,7 +140,6 @@ class Stb extends React.Component {
         return (
                 <div>
                     {this.renderTable()}
-                    {this.renderModal()}
                     <Modal width="350"
                            visible={this.state.confirmVisible}
                            onOk={this.onDelete}
@@ -196,20 +153,18 @@ class Stb extends React.Component {
     }
 }
 
-Stb.propTypes = {
-    list: PropTypes.array.isRequired,
+StbAccount.propTypes = {
+    stbList: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
-    modalVisible: PropTypes.bool.isRequired,
     errorModalVisible: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        list : state.stb.list,
-        loading : state.stb.loading,
-        modalVisible: state.stb.modalVisible,
-        errorModalVisible: state.stb.errorModalVisible
+        stbList : state.account.stbList,
+        loading : state.account.loading,
+        errorModalVisible: state.account.errorModalVisible
     }
 }
 
-export default connect(mapStateToProps)(Stb)
+export default connect(mapStateToProps)(StbAccount)

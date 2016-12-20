@@ -30,7 +30,7 @@ class Customer extends React.Component {
             const customerModalProps = {
                 item: newModal ? {} : currentItem,
                 visible: modalVisible,
-
+                isEmpty: newModal,
                 onOk(data) {
                     if (newModal) {
                         console.log("提交新建");
@@ -72,7 +72,7 @@ class Customer extends React.Component {
     };
 
     onEditItem = (record) => {
-        console.log(record);
+        console.log("编辑："+record);
         const { dispatch } = this.props;
         dispatch({
             type: 'customer/showModal',
@@ -135,8 +135,23 @@ class Customer extends React.Component {
             width: 100,
         }, {
             title: '序列号',
-            dataIndex: 'serial_number',
+            // dataIndex: 'serial_number',
+            key: 'serial_number',
             width: 100,
+            render: (text, record) => { //每一个行的信息 data[record.id]
+                return(
+                        <div>
+                            {record.serial_number.map((obj, i) => {
+                                return (
+                                        <p key={i}>
+                                            {obj}
+                                        </p>
+                                );
+                            })
+                            }
+                        </div>
+                );
+            },
         },  {
             title: '操作',
             key: 'edit',
@@ -198,6 +213,27 @@ class Customer extends React.Component {
 
     //----------------render--------------------
 
+    renderError = ()=> {
+        const { errorModalVisible, dispatch, error } = this.props;
+        if (errorModalVisible) {
+            Modal.error({
+                title: '提示',
+                content: (
+                        <div>
+                            <br/>
+                            <p>请求失败，请重试</p>
+                            <br/>
+                            <p>错误error：{error}</p>
+                        </div>),
+                onOk(){
+                    dispatch({
+                        type: 'customer/hideErrorModal',
+                    });
+                },
+            });
+        }
+    };
+
     render() {
         return (
                 <div>
@@ -210,6 +246,7 @@ class Customer extends React.Component {
                            okText="确定" cancelText="取消">
                         <p className={styles.confirm_p}>确定要删除选中的客户信息吗？</p>
                     </Modal>
+                    {this.renderError()}
                 </div>
         );
     }
@@ -221,6 +258,7 @@ Customer.propTypes = {
     modalVisible: PropTypes.bool.isRequired,
     newModal: PropTypes.bool.isRequired,
     currentItem: PropTypes.object.isRequired,
+    errorModalVisible: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -230,6 +268,7 @@ function mapStateToProps(state) {
         modalVisible: state.customer.modalVisible,
         newModal: state.customer.newModal,
         currentItem: state.customer.currentItem,
+        errorModalVisible: state.customer.errorModalVisible
     }
 }
 

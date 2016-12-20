@@ -7,53 +7,7 @@ import { Button, Modal, Form, Input, Select, Icon} from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-let uuid = 0;
-
-import styles from './CustomerModal.less';
-
 class CustomerModal extends React.Component {
-
-    componentWillMount() {
-        const { item, isEmpty} = this.props;
-        let objs = [0];
-        if (!isEmpty) {
-            uuid = item.serial_number.length - 1;
-            for (let i = 1; i < item.serial_number.length; i++) {
-                objs.push(i);
-            }
-        }
-        this.props.form.setFieldsValue({
-            keys: objs,
-        });
-    }
-
-    remove = (k) => {
-        const { form } = this.props;
-        // can use data-binding to get
-        const keys = form.getFieldValue('keys');
-        // We need at least one passenger
-        if (keys.length === 1) {
-            return;
-        }
-
-        // can use data-binding to set
-        form.setFieldsValue({
-            keys: keys.filter(key => key !== k),
-        });
-    };
-
-    add = () => {
-        uuid++;
-        const { form } = this.props;
-        // can use data-binding to get
-        const keys = form.getFieldValue('keys');
-        const nextKeys = keys.concat(uuid);
-        // can use data-binding to set
-        // important! notify form to detect changes
-        form.setFieldsValue({
-            keys: nextKeys,
-        });
-    };
 
     handleCancel = ()=> {
         const { onCancel } = this.props;
@@ -62,28 +16,13 @@ class CustomerModal extends React.Component {
 
     handleOk = ()=> {
         const { getFieldsValue, validateFields } = this.props.form;
-        const { onOk, item, form } = this.props;
-
-        const keys = form.getFieldValue('keys');
-        let ser = [];
-        keys.map((k, i) => {
-            if (form.getFieldValue(`serial_${k}`).length){ //空的序列号不提交
-                ser.push(form.getFieldValue(`serial_${k}`));
-            }
-        });
-        console.log("ser:" + ser);
-
+        const { onOk, item } = this.props;
         validateFields((errors) => {
             if (errors) {
                 return;
             }
-            const data = {
-                ...getFieldsValue(),
-                serial_number: ser,
-                key: item.key ,
-                id: item.id};
-
-            console.log("提交："+ data);
+            const data = { ...getFieldsValue(), key: item.key , id: item.id};
+            console.log("提交id："+ data.id + "名字：" + data.name);
             onOk(data);
         });
     };
@@ -105,45 +44,12 @@ class CustomerModal extends React.Component {
     };
 
     render() {
-        const { visible , item, isEmpty} = this.props;
+        const { visible , item} = this.props;
         const { getFieldDecorator, getFieldValue } = this.props.form;
         const formItemLayout = {
             labelCol: { span: 6 },
             wrapperCol: { span: 14 },
         };
-
-        const formItemLayoutWithOutLabel = {
-            wrapperCol: { span: 14, offset: 6 },
-        };
-
-        const keys = getFieldValue('keys');
-        const formItems = keys.map((k, index) => {
-            let it = "";
-            if (!isEmpty) {
-                it = item.serial_number[k] ? item.serial_number[k] :"";
-            }
-            return (
-                    <FormItem
-                            {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-                            label={index === 0 ? '序列号' : ''}
-                            required={false}
-                            key={k}
-                    >
-                        {getFieldDecorator(`serial_${k}`, {
-                            initialValue: it,
-                            validateTrigger: ['onChange', 'onBlur']
-                        })(
-                                <Input type="text" style={{ width: '70%', marginRight: 8 }}/>
-                        )}
-                        <Icon
-                                className={styles.dynamic_delete_button}
-                                type="minus-circle-o"
-                                disabled={keys.length == 1}
-                                onClick={() => this.remove(k)}
-                        />
-                    </FormItem>
-            );
-        });
 
         return (
                 <Modal  visible={visible}
@@ -221,15 +127,13 @@ class CustomerModal extends React.Component {
                                     <Input type="number"/>
                             )}
                         </FormItem>
-
-                        {formItems}
-
-                        <FormItem {...formItemLayoutWithOutLabel}>
-                            <Button type="dashed"
-                                    onClick={this.add}
-                                    style={{ width: '80%' }}>
-                                <Icon type="plus" /> 添加序列号
-                            </Button>
+                        <FormItem
+                                {...formItemLayout}
+                                label="序列号"
+                        >
+                            {getFieldDecorator('serial_number', { initialValue: item.serial_number })(
+                                    <Input type="text"/>
+                            )}
                         </FormItem>
                     </Form>
                 </Modal>
@@ -243,7 +147,6 @@ CustomerModal.propTypes = {
     onCancel: PropTypes.func.isRequired,
     onOk: PropTypes.func.isRequired,
     form: PropTypes.object.isRequired,
-    isEmpty: PropTypes.bool.isRequired,
 };
 
 export default Form.create()(CustomerModal);
