@@ -36,7 +36,7 @@ module.exports = {
 
     'POST /admin/deleteStb': function (req, res) {
         const { ids } = qs.parse(req.body);
-        console.log(`删除数量:-------- ${ids}`);
+        console.log(`删除机顶盒:-------- ${ids}`);
 
         // for (let i = 0; i < ids.length; i ++) {
         //     stb = stb.filter(s => s.id != ids[i]);

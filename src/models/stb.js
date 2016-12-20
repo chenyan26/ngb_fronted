@@ -107,7 +107,7 @@ export default {
         },
 
         deleteSuccess(state,  { payload }) {
-            console.log("reducer - deleteSuccess");
+            console.log("stb-reducer - deleteSuccess");
             console.log("payload:"+ payload);
             let stb = state.list;
             for (let i = 0; i < payload.length; i ++) {

@@ -47,12 +47,11 @@ class StbModal extends React.Component {
                             >提交</Button>
                         ]}
                 >
-                    <Form horizontal="true"
-                          onSubmit={this.handleSubmit}>
+                    <Form horizontal onSubmit={this.handleSubmit}>
                         <FormItem
                                 {...formItemLayout}
                                 label="序列号"
-                                hasFeedback="true"
+                                hasFeedback
                         >
                             {getFieldDecorator('serial_number', {
                                 initialValue: "",

@@ -8,12 +8,19 @@ import qs from 'qs';
 // }
 
 export async function query() {
-	return request(`/customer`);
+	return request(`/admin/getCustomer`);
+}
+
+export async function create(params) {
+	return request('admin/createCustomer', {
+		method: 'post',
+		body: qs.stringify(params),
+	});
 }
 
 export async function remove(params) {
-	return request('/customer', {
-		method: 'delete',
+	return request('admin/deleteCustomer', {
+		method: 'post',
 		// headers: {
 		// 	/*Must have this to make Nutz backend recognize.*/
 		// 	'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -22,16 +29,9 @@ export async function remove(params) {
 	});
 }
 
-export async function create(params) {
-	return request('/customer', {
-		method: 'post',
-		body: qs.stringify(params),
-	});
-}
-
 export async function update(params) {
-	return request('/customer', {
-		method: 'put',
+	return request('admin/updateCustomer', {
+		method: 'post',
 		body: qs.stringify(params),
 	});
 }

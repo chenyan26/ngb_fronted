@@ -27,8 +27,6 @@ class Customer extends React.Component {
     renderModal = ()=> {
         const { modalVisible , newModal, currentItem, dispatch} = this.props;
         if (modalVisible) {
-            // const submitStatue = this.state.mobile ? "" : "disabled";
-
             const customerModalProps = {
                 item: newModal ? {} : currentItem,
                 visible: modalVisible,
@@ -80,7 +78,7 @@ class Customer extends React.Component {
             type: 'customer/showModal',
             payload: {
                 newModal: false,
-                currentItem: record,
+                currentItem: {...record, key:undefined},
             },
         });
     };
@@ -124,10 +122,6 @@ class Customer extends React.Component {
             dataIndex: 'gender',
             width: 50,
         }, {
-            title: '身份证号',
-            dataIndex: 'identify_number',
-            width: 150,
-        }, {
             title: '年龄',
             dataIndex: 'age',
             width: 40,
@@ -140,8 +134,8 @@ class Customer extends React.Component {
             dataIndex: 'mobile',
             width: 100,
         }, {
-            title: '录入日期',
-            dataIndex: 'input_date',
+            title: '序列号',
+            dataIndex: 'serial_number',
             width: 100,
         },  {
             title: '操作',
@@ -156,26 +150,16 @@ class Customer extends React.Component {
 
         let data = [];
         const { list, loading } = this.props;
-
-        const stbs = { 0 : "未绑定", 1 : "未激活", 2 : "激活" };
-        const mobs = { 0 : "未绑定", 1 : "僵死", 2 : "活跃" };
-
         list.map((obj, i) => {
-          //  const {[obj.stb_status] : ss} = stbs;
-          //  const {[obj.mobile_status] : ms} = mobs;
-
             data[i] = {
                 key: i,
                 id: obj.id,
                 name: obj.name,
-                identify_number: obj.identify_number,
                 gender: obj.gender,
                 age: obj.age,
                 address: obj.address,
                 mobile: obj.mobile,
-                input_date: obj.input_date,
-               // stb_status: ss,
-               // mobile_status: ms
+                serial_number: obj.serial_number,
             }
         });
 

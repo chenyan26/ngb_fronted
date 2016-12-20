@@ -84,15 +84,6 @@ class CustomerModal extends React.Component {
                         </FormItem>
                         <FormItem
                                 {...formItemLayout}
-                                label="身份证号"
-                                hasFeedback
-                        >
-                            {getFieldDecorator('identify_number', { initialValue: item.identify_number })(
-                                    <Input type="text"/>
-                            )}
-                        </FormItem>
-                        <FormItem
-                                {...formItemLayout}
                                 label="性别"
                         >
                             {getFieldDecorator('gender', { initialValue: item.gender })(
@@ -138,10 +129,10 @@ class CustomerModal extends React.Component {
                         </FormItem>
                         <FormItem
                                 {...formItemLayout}
-                                label="录入日期"
+                                label="序列号"
                         >
-                            {getFieldDecorator('input_date', { initialValue: item.input_date })(
-                                    <Input type="number"/>
+                            {getFieldDecorator('serial_number', { initialValue: item.serial_number })(
+                                    <Input type="text"/>
                             )}
                         </FormItem>
                     </Form>

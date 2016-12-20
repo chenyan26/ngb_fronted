@@ -14,6 +14,7 @@ export default {
     currentItem: {},
     modalVisible: false,
     newModal: true, //是否新建
+    errorModalVisible: false,
   },
 
   subscriptions: {
@@ -29,14 +30,29 @@ export default {
       const { response, err } = yield call(service.query, payload);
       if(err || !response){
         yield put({type:'queryFailed',payload:err.message});
-      }else if(response.ok) {
+      }else if(response.code == 0) {
         yield put({
           type: 'querySuccess',
           payload: response.data,
         });
-        // yield put(routerRedux.push('/login'));
       }else{
-        yield put({type:'queryFailed', payload:response.err});
+        yield put({type:'queryFailed', payload:response.code});
+      }
+    },
+
+    *create({ payload }, { call, put }) {
+      yield put({ type: 'showLoading' });
+      const { response, err } = yield call(service.create, payload);
+      if(err || !response){
+        yield put({type:'createFailed',payload:err.message});
+      }else if(response.code == 0) {
+        yield put({
+          type: 'createSuccess',
+          payload: response.data,
+        });
+        yield put({ type: 'hideModal' });
+      }else{
+        yield put({type:'createFailed', payload:response.code});
       }
     },
 
@@ -47,31 +63,13 @@ export default {
       const { response, err } = yield call(service.remove, payload);
       if(err || !response){
         yield put({type:'deleteFailed',payload:err.message});
-      }else if(response.ok) {
+      }else if(response.code == 0) {
         yield put({
           type: 'deleteSuccess',
-          payload: response.data,
+          payload: payload.ids,
         });
-        // yield put(routerRedux.push('/login'));
       }else{
-        yield put({type:'deleteFailed', payload:response.err});
-      }
-    },
-
-    *create({ payload }, { call, put }) {
-      yield put({ type: 'showLoading' });
-      const { response, err } = yield call(service.create, payload);
-      if(err || !response){
-        yield put({type:'createFailed',payload:err.message});
-      }else if(response.ok) {
-        yield put({
-          type: 'createSuccess',
-          payload: response.data,
-        });
-        yield put({ type: 'hideModal' });
-        // yield put(routerRedux.push('/login'));
-      }else{
-        yield put({type:'createFailed', payload:response.err});
+        yield put({type:'deleteFailed', payload:response.code});
       }
     },
 
@@ -80,15 +78,14 @@ export default {
       const { response, err } = yield call(service.update, payload);
       if(err || !response){
         yield put({type:'updateFailed',payload:err.message});
-      }else if(response.ok) {
+      }else if(response.code == 0) {
         yield put({
           type: 'updateSuccess',
-          payload: response.data,
+          payload: payload,
         });
         yield put({ type: 'hideModal' });
-        // yield put(routerRedux.push('/login'));
       }else{
-        yield put({type:'updateFailed', payload:response.err});
+        yield put({type:'updateFailed', payload:response.code});
       }
     }
   },
@@ -97,6 +94,7 @@ export default {
     showLoading(state) {
       return { ...state, loading: true };
     },
+
     showModal(state, action) {
       return { ...state, ...action.payload, modalVisible: true };
     },
@@ -104,12 +102,15 @@ export default {
       return { ...state, modalVisible: false };
     },
 
+    hideErrorModal(state) {
+      return { ...state, errorModalVisible: false };
+    },
+
     querySuccess(state, { payload }) {
-      // console.log(`reducer - querySuccess: ${payload}`);
       return { ...state, list: payload, loading: false};
     },
     queryFailed(state, { payload }){
-      return { ...state, error: payload, loading: false};
+      return { ...state, error: payload, loading: false, errorModalVisible: true };
     },
 
     createSuccess(state, action) {
@@ -118,21 +119,25 @@ export default {
       return { ...state, list:newList, loading: false };
     },
     createFailed(state, { payload }){
-      return { ...state, error: payload, loading: false};
+      return { ...state, error: payload, loading: false, errorModalVisible: true };
     },
 
     deleteSuccess(state,  { payload }) {
-      console.log("reducer - deleteSuccess");
-
-      return { ...state, list: payload, loading: false };
+      console.log("customer-reducer - deleteSuccess");
+      console.log("payload:"+ payload);
+      let customer = state.list;
+      for (let i = 0; i < payload.length; i ++) {
+        customer = customer.filter(s => s.id != payload[i]);
+      }
+      return { ...state, list: customer, loading: false };
     },
     deleteFailed(state, { payload }){
-      return { ...state, error: payload, loading: false};
+      return { ...state, error: payload, loading: false, errorModalVisible: true };
     },
 
     updateSuccess(state, { payload }) {
       const newList = state.list.map(customer => {
-        if (customer.id === payload.id) {
+        if (customer.id == payload.id) {
           return { ...customer, ...payload };
         }
         return customer;
@@ -140,7 +145,7 @@ export default {
       return { ...state, list: newList, loading: false };
     },
     updateFailed(state, {payload}){
-      return { ...state, id: null, name: null, role: null, error: payload };
+      return { ...state, error: payload, loading: false, errorModalVisible: true };
     },
   },
 
