@@ -77,12 +77,18 @@ class CustomerModal extends React.Component {
             if (errors) {
                 return;
             }
+
             const data = {
-                ...getFieldsValue(),
-                serial_number: ser,
-                id: item.id
+                // ...getFieldsValue(),
+                id: item.id,
+
+                name:getFieldValue("name"),
+                gender: Number(getFieldValue("gender")),
+                age:getFieldValue("age"),
+                address:getFieldValue("address"),
+
+                serial_number: ser
             };
-            console.log("提交："+ data);
             onOk(data);
         });
     };
@@ -179,7 +185,7 @@ class CustomerModal extends React.Component {
                                 {...formItemLayout}
                                 label="性别"
                         >
-                            {getFieldDecorator('gender', { initialValue: item.gender })(
+                            {getFieldDecorator('gender', { initialValue: `${item.gender ? "女" : "男"}`})(
                                     <Select>
                                         <Option value="0">男</Option>
                                         <Option value="1">女</Option>

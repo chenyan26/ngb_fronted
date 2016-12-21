@@ -141,8 +141,13 @@ class Customer extends React.Component {
             width: 80,
         }, {
             title: '性别',
-            dataIndex: 'gender',
+            // dataIndex: 'gender',
             width: 50,
+            render: (text, record) => { //每一个行的信息 data[record.id]
+                return(
+                        <p>{record.gender ? "女" : "男"}</p>
+                );
+            },
         }, {
             title: '年龄',
             dataIndex: 'age',
@@ -159,7 +164,7 @@ class Customer extends React.Component {
             title: '序列号',
             // dataIndex: 'serial_number',
             key: 'serial_number',
-            width: 100,
+            width: 150,
             render: (text, record) => { //每一个行的信息 data[record.id]
                 return(
                         <div>

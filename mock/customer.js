@@ -10,11 +10,11 @@ for (let i = 1; i < 71; i++) {
 	customer.push({
 		id: i,
 		name: '用户名' + i,
-		gender: `${i%3 ? '男' : '女'}`,
+		gender: i%2,
 		age: 23,
 		address: '安徽省黄山市光明顶125号',
 		mobile: '13812345678',
-		serial_number: ['7593vsfewter' + i, '2593vsfewter' + i,'4593vsfewter' + i],
+		serial_number: ['5923a8f17b43aa9b' + i, 'c9e95efb47c680dc' + i,'ba6b03c88b091fd6' + i],
 	});
 }
 
