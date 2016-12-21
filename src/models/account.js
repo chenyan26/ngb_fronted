@@ -13,6 +13,7 @@ export default {
         loading: false,
         // currentItem: {},
         errorModalVisible: false,
+        error: ""
     },
 
     subscriptions: {

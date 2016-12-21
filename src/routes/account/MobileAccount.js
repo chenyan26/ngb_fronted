@@ -157,13 +157,15 @@ MobileAccount.propTypes = {
     mobileList: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
     errorModalVisible: PropTypes.bool.isRequired,
+    error: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         mobileList : state.account.mobileList,
         loading : state.account.loading,
-        errorModalVisible: state.account.errorModalVisible
+        errorModalVisible: state.account.errorModalVisible,
+        error: state.account.error
     }
 }
 

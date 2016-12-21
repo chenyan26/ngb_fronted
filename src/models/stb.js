@@ -15,6 +15,7 @@ export default {
         currentItem: {},
         modalVisible: false,
         errorModalVisible: false,
+        error: ""
     },
 
     subscriptions: {

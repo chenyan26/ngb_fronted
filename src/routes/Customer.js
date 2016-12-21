@@ -259,6 +259,7 @@ Customer.propTypes = {
     newModal: PropTypes.bool.isRequired,
     currentItem: PropTypes.object.isRequired,
     errorModalVisible: PropTypes.bool.isRequired,
+    error: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -268,7 +269,8 @@ function mapStateToProps(state) {
         modalVisible: state.customer.modalVisible,
         newModal: state.customer.newModal,
         currentItem: state.customer.currentItem,
-        errorModalVisible: state.customer.errorModalVisible
+        errorModalVisible: state.customer.errorModalVisible,
+        error: state.customer.error
     }
 }
 

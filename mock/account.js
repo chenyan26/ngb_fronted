@@ -42,7 +42,6 @@ module.exports = {
         });
     },
 
-
     'POST /admin/deleteAccount': function (req, res) {
         const { ids } = qs.parse(req.body);
         console.log(`删除用户:-------- ${ids}`);

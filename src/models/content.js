@@ -16,6 +16,7 @@ export default {
         modalVisible: false,
         newModal: true, //是否新建
         errorModalVisible: false,
+        error: ""
     },
 
     subscriptions: {

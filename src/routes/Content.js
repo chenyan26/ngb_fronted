@@ -272,6 +272,7 @@ Content.propTypes = {
     newModal: PropTypes.bool.isRequired,
     currentItem: PropTypes.object.isRequired,
     errorModalVisible: PropTypes.bool.isRequired,
+    error: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -281,7 +282,8 @@ function mapStateToProps(state) {
         modalVisible: state.content.modalVisible,
         newModal: state.content.newModal,
         currentItem: state.content.currentItem,
-        errorModalVisible: state.content.errorModalVisible
+        errorModalVisible: state.content.errorModalVisible,
+        error: state.content.error
     }
 }
 

@@ -201,6 +201,7 @@ Stb.propTypes = {
     loading: PropTypes.bool.isRequired,
     modalVisible: PropTypes.bool.isRequired,
     errorModalVisible: PropTypes.bool.isRequired,
+    error: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -208,7 +209,8 @@ function mapStateToProps(state) {
         list : state.stb.list,
         loading : state.stb.loading,
         modalVisible: state.stb.modalVisible,
-        errorModalVisible: state.stb.errorModalVisible
+        errorModalVisible: state.stb.errorModalVisible,
+        error: state.stb.error
     }
 }
 
