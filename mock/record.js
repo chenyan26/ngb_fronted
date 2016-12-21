@@ -37,14 +37,6 @@ module.exports = {
             return;
         }
 
-        if (number === "12") { //该克拉号不存在
-            res.json({
-                code: 0,
-                data:[]
-            });
-            return;
-        }
-
         let stb_number = [];
         for (let i = 1; i < 11; i++) {
             stb_number.push({

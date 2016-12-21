@@ -10,28 +10,28 @@ export default {
 
   state: {
     id: null,
-  	name: null,
+    name: null,
     role: null,
     error: null,
 
-  	allowRegister: true,
-  	menuItems: [
-  		{
-  			icon: 'home',
-  			name: '欢迎',
-  			children: [{name:'111'},{name:'222'},{name:'333'}]
-  		},
-  		{
-  			icon: 'windows',
-  			name: 'Windows',
-  			children: [{name:'111'},{name:'222'},{name:'333'}]
-  		}
-  	]
+    allowRegister: true,
+    menuItems: [
+      {
+        icon: 'home',
+        name: '欢迎',
+        children: [{name:'111'},{name:'222'},{name:'333'}]
+      },
+      {
+        icon: 'windows',
+        name: 'Windows',
+        children: [{name:'111'},{name:'222'},{name:'333'}]
+      }
+    ]
   },
 
 
   subscriptions: {
-    
+
     /*user authentication*/
     accessControl({ dispatch, history }) {
       return history.listen(({ pathname }) => {
@@ -45,7 +45,7 @@ export default {
   effects: {
 
     *checkLogin({payload}, { select, put }){
-      
+
       //Notice: selecting state with namespace, IMPORTANT!!!
       const id = yield select(state => state.app.id);
       const {pathname} = payload;

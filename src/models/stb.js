@@ -31,13 +31,22 @@ export default {
             const { response, err } = yield call(service.query, payload);
             if(err || !response){
                 yield put({type:'queryFailed',payload:err.message});
-            }else if(response.code == 0) {
+                return;
+            }
+            if(response.code == 0) {
                 yield put({
                     type: 'querySuccess',
                     payload: response.data,
                 });
             }else{
-                yield put({type:'queryFailed', payload:response.code});
+                let msg = "";
+                /**
+                 * 根据code判断错误类型并提示
+                 */
+                if (response.code == 1) {
+                    msg = "该克拉号不存在";
+                }
+                yield put({type:'queryFailed', payload:msg});
             }
         },
 
@@ -46,14 +55,23 @@ export default {
             const { response, err } = yield call(service.create, payload);
             if(err || !response){
                 yield put({type:'createFailed',payload:err.message});
-            }else if(response.code == 0) {
+                return;
+            }
+            if(response.code == 0) {
                 yield put({
                     type: 'createSuccess',
                     payload: response.data,
                 });
                 yield put({ type: 'hideModal' });
             }else{
-                yield put({type:'createFailed', payload:response.code});
+                let msg = "";
+                /**
+                 * 根据code判断错误类型并提示
+                 */
+                if (response.code == 1) {
+                    msg = "该克拉号不存在";
+                }
+                yield put({type:'createFailed', payload:msg});
             }
         },
 
@@ -64,13 +82,22 @@ export default {
             const { response, err } = yield call(service.remove, payload);
             if(err || !response){
                 yield put({type:'deleteFailed',payload:err.message});
-            }else if(response.code == 0) {
+                return;
+            }
+            if(response.code == 0) {
                 yield put({
                     type: 'deleteSuccess',
                     payload: payload.ids,
                 });
             }else{
-                yield put({type:'deleteFailed', payload:response.code});
+                let msg = "";
+                /**
+                 * 根据code判断错误类型并提示
+                 */
+                if (response.code == 1) {
+                    msg = "该克拉号不存在";
+                }
+                yield put({type:'deleteFailed', payload:msg});
             }
         }
     },

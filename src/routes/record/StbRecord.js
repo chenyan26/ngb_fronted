@@ -18,6 +18,28 @@ class StbRecord extends React.Component {
         });
     }
 
+    componentDidUpdate(prevProps, prevState, prevContext) {
+        const { errorModalVisible, dispatch, error } = this.props;
+        if (errorModalVisible) {
+            Modal.warning({
+                title: '提示',
+                content: (
+                        <div>
+                            <br/>
+                            <p>请求失败，请重试</p>
+                            <br/>
+                            <p className={styles.error_p}>{error}</p>
+                        </div>
+                ),
+                onOk(){
+                    dispatch({
+                        type: 'stbRecord/hideErrorModal',
+                    });
+                },
+            });
+        }
+    }
+
     //---------------- Table 相关--------------------
 
     renderTable = () => {
@@ -58,6 +80,7 @@ class StbRecord extends React.Component {
 
         return (
                 <div>
+                    <label className={styles.my_label}>搜索</label>
                     <Search placeholder="克拉号"
                             className={styles.search_Input}
                             onSearch={(value) => {
@@ -89,32 +112,10 @@ class StbRecord extends React.Component {
     };
 
     //----------------render--------------------
-    renderError = ()=> {
-        const { errorModalVisible, dispatch, error } = this.props;
-        if (errorModalVisible) {
-            Modal.error({
-                title: '提示',
-                content: (
-                        <div>
-                            <br/>
-                            <p>请求失败，请重试</p>
-                            <br/>
-                            <p className={styles.error_p}>{error}</p>
-                        </div>),
-                onOk(){
-                    dispatch({
-                        type: 'stbRecord/hideErrorModal',
-                    });
-                },
-            });
-        }
-    };
-
     render() {
         return (
                 <div>
                     {this.renderTable()}
-                    {this.renderError()}
                 </div>
         );
     }

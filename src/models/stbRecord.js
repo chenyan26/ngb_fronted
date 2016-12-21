@@ -27,13 +27,22 @@ export default {
             const { response, err } = yield call(service.getStbRecord, payload);
             if(err || !response){
                 yield put({type:'queryFailed',payload:err.message});
-            }else if(response.code == 0) {
+                return;
+            }
+            if(response.code == 0) {
                 yield put({
                     type: 'querySuccess',
                     payload: response.data,
                 });
             }else{
-                yield put({type:'queryFailed', payload:response.code});
+                let msg = "";
+                /**
+                 * 根据code判断错误类型并提示
+                 */
+                if (response.code == 1) {
+                    msg = "该克拉号不存在";
+                }
+                yield put({type:'queryByNumberFailed', payload:msg});
             }
         },
 
@@ -52,7 +61,14 @@ export default {
                     payload: response.data,
                 });
             }else {
-                yield put({type:'queryByNumberFailed', payload:{code:response.code}});
+                let msg = "";
+                /**
+                 * 根据code判断错误类型并提示
+                 */
+                if (response.code == 1) {
+                    msg = "该克拉号不存在";
+                }
+                yield put({type:'queryByNumberFailed', payload:msg});
             }
         },
     },
@@ -77,12 +93,7 @@ export default {
             return { ...state, list: payload, loading: false};
         },
         queryByNumberFailed(state, { payload }){
-            const { code } = payload;
-            let msg = "";
-            if (code == 1) {
-                msg = "该克拉号不存在";
-            }
-            return { ...state, error: msg, loading: false, errorModalVisible: true };
+            return { ...state, error: payload, loading: false, errorModalVisible: true };
         },
     },
 

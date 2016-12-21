@@ -22,6 +22,28 @@ class Content extends React.Component {
         });
     }
 
+    componentDidUpdate(prevProps, prevState, prevContext) {
+        const { errorModalVisible, dispatch, error } = this.props;
+        if (errorModalVisible) {
+            Modal.warning({
+                title: '提示',
+                content: (
+                        <div>
+                            <br/>
+                            <p>请求失败，请重试</p>
+                            <br/>
+                            <p className={styles.error_p}>{error}</p>
+                        </div>
+                ),
+                onOk(){
+                    dispatch({
+                        type: 'content/hideErrorModal',
+                    });
+                },
+            });
+        }
+    }
+
     //---------------- Modal 相关--------------------
 
     renderModal = ()=> {
@@ -226,27 +248,6 @@ class Content extends React.Component {
 
     //----------------render--------------------
 
-    renderError = ()=> {
-        const { errorModalVisible, dispatch, error } = this.props;
-        if (errorModalVisible) {
-            Modal.error({
-                title: '提示',
-                content: (
-                        <div>
-                            <br/>
-                            <p>请求失败，请重试</p>
-                            <br/>
-                            <p>错误error：{error}</p>
-                        </div>),
-                onOk(){
-                    dispatch({
-                        type: 'content/hideErrorModal',
-                    });
-                },
-            });
-        }
-    };
-
     render() {
         return (
                 <div>
@@ -259,7 +260,6 @@ class Content extends React.Component {
                            okText="确定" cancelText="取消">
                         <p className={styles.confirm_p}>确定要删除选中的视频吗？</p>
                     </Modal>
-                    {this.renderError()}
                 </div>
         );
     }

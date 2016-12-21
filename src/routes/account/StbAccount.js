@@ -17,11 +17,32 @@ class StbAccount extends React.Component {
 
     componentWillMount() {
         const { dispatch } = this.props;
-        console.log("StbAccount-componentWillMount");
         dispatch({
             type: 'account/query',
             payload: {type: 0}
         });
+    }
+
+    componentDidUpdate(prevProps, prevState, prevContext) {
+        const { errorModalVisible, dispatch, error } = this.props;
+        if (errorModalVisible) {
+            Modal.warning({
+                title: '提示',
+                content: (
+                        <div>
+                            <br/>
+                            <p>请求失败，请重试</p>
+                            <br/>
+                            <p className={styles.error_p}>{error}</p>
+                        </div>
+                ),
+                onOk(){
+                    dispatch({
+                        type: 'account/hideErrorModal',
+                    });
+                },
+            });
+        }
     }
 
     //---------------- Table 相关--------------------
@@ -115,26 +136,6 @@ class StbAccount extends React.Component {
     };
 
     //----------------render--------------------
-    renderError = ()=> {
-        const { errorModalVisible, dispatch, error } = this.props;
-        if (errorModalVisible) {
-            Modal.error({
-                title: '提示',
-                content: (
-                        <div>
-                            <br/>
-                            <p>请求失败，请重试</p>
-                            <br/>
-                            <p>错误error：{error}</p>
-                        </div>),
-                onOk(){
-                    dispatch({
-                        type: 'user/hideErrorModal',
-                    });
-                },
-            });
-        }
-    };
 
     render() {
         return (
@@ -147,7 +148,6 @@ class StbAccount extends React.Component {
                            okText="确定" cancelText="取消">
                         <p className={styles.confirm_p}>确定要删除选中的机顶盒用户吗？</p>
                     </Modal>
-                    {this.renderError()}
                 </div>
         );
     }
