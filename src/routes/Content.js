@@ -1,14 +1,14 @@
 /**
- * Created by echo on 2016/12/9.
+ * Created by echo on 2016/12/20.
  */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'dva';
 import { Button, Table, Modal } from 'antd';
 
-import styles from './Customer.less';
-import CustomerModal from '../components/CustomerModal';
+import styles from './Content.less';
+import ContentModal from '../components/ContentModal';
 
-class Customer extends React.Component {
+class Content extends React.Component {
 
     state = {
         selectedRows: [],
@@ -18,7 +18,7 @@ class Customer extends React.Component {
     componentWillMount() {
         const { dispatch } = this.props;
         dispatch({
-            type: 'customer/query',
+            type: 'content/query',
         });
     }
 
@@ -35,26 +35,26 @@ class Customer extends React.Component {
                     if (newModal) {
                         console.log("提交新建");
                         dispatch({
-                            type: 'customer/create',
+                            type: 'content/create',
                             payload: data,
                         });
                     } else {
                         console.log("提交编辑");
                         dispatch({
-                            type: 'customer/update',
+                            type: 'content/update',
                             payload: data,
                         });
                     }
                 },
                 onCancel() {
                     dispatch({
-                        type: 'customer/hideModal',
+                        type: 'content/hideModal',
                     });
                 },
             };
 
             return (
-                    <CustomerModal {...customerModalProps}/>
+                    <ContentModal {...customerModalProps}/>
             )
         }
     };
@@ -64,7 +64,7 @@ class Customer extends React.Component {
     onAdd = () => {
         const { dispatch } = this.props;
         dispatch({
-            type: 'customer/showModal',
+            type: 'content/showModal',
             payload: {
                 newModal: true,
             },
@@ -75,7 +75,7 @@ class Customer extends React.Component {
         console.log("编辑："+record);
         const { dispatch } = this.props;
         dispatch({
-            type: 'customer/showModal',
+            type: 'content/showModal',
             payload: {
                 newModal: false,
                 currentItem: {...record, key:undefined},
@@ -101,7 +101,7 @@ class Customer extends React.Component {
             selectedRows: []
         });
         dispatch({
-            type: 'customer/delete',
+            type: 'content/delete',
             payload:  {ids: idArr}
         });
     };
@@ -114,34 +114,45 @@ class Customer extends React.Component {
 
     renderTable = () => {
         const columns = [{
-            title: '姓名',
+            title: '海报',
+            // dataIndex: 'poster',
+            width: 60,
+            render: (text, record) => (
+                    <img src={record.poster} style={{ width: "80%", height: 80 }}/>
+            )
+        }, {
+            title: '名字',
             dataIndex: 'name',
-            width: 80,
+            width: 70,
         }, {
-            title: '性别',
-            dataIndex: 'gender',
-            width: 50,
-        }, {
-            title: '年龄',
-            dataIndex: 'age',
+            title: '年份',
+            dataIndex: 'year',
             width: 40,
         }, {
-            title: '地址',
-            dataIndex: 'address',
+            title: '导演',
+            dataIndex: 'director',
+            width: 60,
+        }, {
+            title: '演员',
+            dataIndex: 'actors',
+            width: 100,
+        }, {
+            title: '地区',
+            dataIndex: 'region',
+            width: 50,
+        }, {
+            title: '简介',
+            dataIndex: 'synopsis',
             width: 200,
         }, {
-            title: '手机',
-            dataIndex: 'mobile',
-            width: 100,
-        }, {
-            title: '序列号',
-            // dataIndex: 'serial_number',
-            key: 'serial_number',
-            width: 100,
+            title: '标签',
+            // dataIndex: 'tags',
+            key: 'tags',
+            width: 70,
             render: (text, record) => { //每一个行的信息 data[record.id]
                 return(
                         <div>
-                            {record.serial_number ? record.serial_number.map((obj, i) => {
+                            {record.tags ? record.tags.map((obj, i) => {
                                 return (
                                         <p key={i}>
                                             {obj}
@@ -152,10 +163,10 @@ class Customer extends React.Component {
                         </div>
                 );
             },
-        },  {
+        }, {
             title: '操作',
             key: 'edit',
-            width: 50,
+            width: 40,
             render: (text, record) => ( //每一个行的信息 data[record.id]
                     <p>
                         <a onClick={() => this.onEditItem(record)}>修改</a>
@@ -169,12 +180,14 @@ class Customer extends React.Component {
             data[i] = {
                 key: i,
                 id: obj.id,
+                poster: obj.poster,
                 name: obj.name,
-                gender: obj.gender,
-                age: obj.age,
-                address: obj.address,
-                mobile: obj.mobile,
-                serial_number: obj.serial_number,
+                year: obj.year,
+                director: obj.director,
+                actors: obj.actors,
+                region: obj.region,
+                synopsis: obj.synopsis,
+                tags: obj.tags
             }
         });
 
@@ -192,13 +205,13 @@ class Customer extends React.Component {
                     <Button type="primary"
                             className={styles.add_btn}
                             onClick={this.onAdd}>
-                        新增客户
+                        新增视频
                     </Button>
                     <Button type="primary"
                             className={styles.delete_btn}
                             disabled = {this.state.selectedRows.length ? false : true}
                             onClick={this.showDeleteConfirm}>
-                        删除客户
+                        删除视频
                     </Button>
                     <Table rowSelection={rowSelection}
                            columns={columns}
@@ -227,7 +240,7 @@ class Customer extends React.Component {
                         </div>),
                 onOk(){
                     dispatch({
-                        type: 'customer/hideErrorModal',
+                        type: 'content/hideErrorModal',
                     });
                 },
             });
@@ -244,7 +257,7 @@ class Customer extends React.Component {
                            onOk={this.onDelete}
                            onCancel={this.handleConfirmCancle}
                            okText="确定" cancelText="取消">
-                        <p className={styles.confirm_p}>确定要删除选中的客户信息吗？</p>
+                        <p className={styles.confirm_p}>确定要删除选中的视频吗？</p>
                     </Modal>
                     {this.renderError()}
                 </div>
@@ -252,7 +265,7 @@ class Customer extends React.Component {
     }
 }
 
-Customer.propTypes = {
+Content.propTypes = {
     list: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
     modalVisible: PropTypes.bool.isRequired,
@@ -263,13 +276,13 @@ Customer.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        list : state.customer.list,
-        loading : state.customer.loading,
-        modalVisible: state.customer.modalVisible,
-        newModal: state.customer.newModal,
-        currentItem: state.customer.currentItem,
-        errorModalVisible: state.customer.errorModalVisible
+        list : state.content.list,
+        loading : state.content.loading,
+        modalVisible: state.content.modalVisible,
+        newModal: state.content.newModal,
+        currentItem: state.content.currentItem,
+        errorModalVisible: state.content.errorModalVisible
     }
 }
 
-export default connect(mapStateToProps)(Customer)
+export default connect(mapStateToProps)(Content)

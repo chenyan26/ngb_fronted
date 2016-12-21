@@ -101,7 +101,7 @@ class StbAccount extends React.Component {
                             className={styles.delete_btn}
                             disabled = {this.state.selectedRows.length ? false : true}
                             onClick={this.showDeleteConfirm}>
-                        删除机顶盒终端
+                        删除机顶盒用户
                     </Button>
                     <Table rowSelection={rowSelection}
                            columns={columns}
@@ -145,7 +145,7 @@ class StbAccount extends React.Component {
                            onOk={this.onDelete}
                            onCancel={this.handleConfirmCancle}
                            okText="确定" cancelText="取消">
-                        <p className={styles.confirm_p}>确定要删除选中的机顶盒终端吗？</p>
+                        <p className={styles.confirm_p}>确定要删除选中的机顶盒用户吗？</p>
                     </Modal>
                     {this.renderError()}
                 </div>

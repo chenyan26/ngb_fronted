@@ -5,9 +5,10 @@ import Container from './routes/Container';
 import Login from './routes/Login';
 
 import Customer from './routes/Customer';
-import StbAccount from './routes/StbAccount';
-import MobileAccount from './routes/MobileAccount'
+import StbAccount from './routes/account/StbAccount';
+import MobileAccount from './routes/account/MobileAccount'
 import Stb from './routes/Stb'
+import Content from './routes/Content'
 
 // import Individual from './routes/Individual';
 
@@ -23,6 +24,8 @@ export default function({ history }) {
 
 			<Route path="stb_account" breadcrumbName="机顶盒用户信息" component={StbAccount} />
 			<Route path="mobile_account" breadcrumbName="手机用户信息" component={MobileAccount} />
+
+			<Route path="content" breadcrumbName="视频内容信息" component={Content} />
 
 			{/*<Route path="individual" breadcrumbName="个人号管理" component={Individual} />*/}
 

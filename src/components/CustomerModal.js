@@ -28,29 +28,29 @@ class CustomerModal extends React.Component {
     }
 
     remove = (k) => {
-        const { form } = this.props;
+        const { getFieldValue, setFieldsValue } = this.props.form;
         // can use data-binding to get
-        const keys = form.getFieldValue('keys');
+        const keys = getFieldValue('keys');
         // We need at least one passenger
         if (keys.length === 1) {
             return;
         }
 
         // can use data-binding to set
-        form.setFieldsValue({
+        setFieldsValue({
             keys: keys.filter(key => key !== k),
         });
     };
 
     add = () => {
         uuid++;
-        const { form } = this.props;
+        const { getFieldValue, setFieldsValue } = this.props.form;
         // can use data-binding to get
-        const keys = form.getFieldValue('keys');
+        const keys = getFieldValue('keys');
         const nextKeys = keys.concat(uuid);
         // can use data-binding to set
         // important! notify form to detect changes
-        form.setFieldsValue({
+        setFieldsValue({
             keys: nextKeys,
         });
     };
@@ -61,14 +61,14 @@ class CustomerModal extends React.Component {
     };
 
     handleOk = ()=> {
-        const { getFieldsValue, validateFields } = this.props.form;
-        const { onOk, item, form } = this.props;
+        const { getFieldsValue, validateFields, getFieldValue} = this.props.form;
+        const { onOk, item } = this.props;
 
-        const keys = form.getFieldValue('keys');
+        const keys = getFieldValue('keys');
         let ser = [];
         keys.map((k, i) => {
-            if (form.getFieldValue(`serial_${k}`).length){ //空的序列号不提交
-                ser.push(form.getFieldValue(`serial_${k}`));
+            if (getFieldValue(`serial_${k}`).length){ //空的序列号不提交
+                ser.push(getFieldValue(`serial_${k}`));
             }
         });
         console.log("ser:" + ser);
@@ -80,9 +80,8 @@ class CustomerModal extends React.Component {
             const data = {
                 ...getFieldsValue(),
                 serial_number: ser,
-                key: item.key ,
-                id: item.id};
-
+                id: item.id
+            };
             console.log("提交："+ data);
             onOk(data);
         });

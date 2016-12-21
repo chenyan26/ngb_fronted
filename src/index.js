@@ -33,8 +33,7 @@ app.model(require('./models/app'));
 app.model(require('./models/customer'));
 app.model(require('./models/stb'));
 app.model(require('./models/account'));
-
-app.model(require('./models/individual'));
+app.model(require('./models/content'));
 
 // 4. Router
 app.router(require('./router'));
