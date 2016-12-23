@@ -1,11 +1,11 @@
 /**
- * Created by echo on 2016/12/21.
+ * Created by echo on 2016/12/23.
  */
 import * as service from "../services/record";
 
 export default {
 
-    namespace: 'stbRecord',
+    namespace: 'vodRecord',
 
     state: {
         list: [],
@@ -24,7 +24,7 @@ export default {
             yield put({
                 type: 'showLoading',
             });
-            const { response, err } = yield call(service.getStbRecord, payload);
+            const { response, err } = yield call(service.getVodRecord, payload);
             if(err || !response){
                 yield put({type:'queryFailed',payload:err.message});
                 return;
@@ -45,32 +45,6 @@ export default {
                 yield put({type:'queryFailed', payload:msg});
             }
         },
-
-        *queryByNumber({ payload }, { call, put }) {
-            yield put({
-                type: 'showLoading',
-            });
-            const { response, err } = yield call(service.getStbRecordByNumber, payload);
-            if(err || !response){
-                yield put({type:'queryByNumberFailed',payload:err.message});
-                return;
-            }
-            if(response.code == 0) {
-                yield put({
-                    type: 'queryByNumberSuccess',
-                    payload: response.data,
-                });
-            }else {
-                let msg = "";
-                /**
-                 * 根据code判断错误类型并提示
-                 */
-                if (response.code == 1) {
-                    msg = "该克拉号不存在";
-                }
-                yield put({type:'queryByNumberFailed', payload:msg});
-            }
-        },
     },
 
     reducers: {
@@ -88,13 +62,5 @@ export default {
         queryFailed(state, { payload }){
             return { ...state, error: payload, loading: false, errorModalVisible: true };
         },
-
-        queryByNumberSuccess(state, { payload }) {
-            return { ...state, list: payload, loading: false};
-        },
-        queryByNumberFailed(state, { payload }){
-            return { ...state, error: payload, loading: false, errorModalVisible: true };
-        },
-    },
-
+    }
 }

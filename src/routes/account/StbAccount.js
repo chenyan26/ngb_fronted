@@ -117,21 +117,13 @@ class StbAccount extends React.Component {
         };
 
         return (
-                <div>
-                    <Button type="primary"
-                            className={styles.delete_btn}
-                            disabled = {this.state.selectedRows.length ? false : true}
-                            onClick={this.showDeleteConfirm}>
-                        删除机顶盒用户
-                    </Button>
-                    <Table rowSelection={rowSelection}
-                           columns={columns}
-                           dataSource={data}
-                           pagination={{ pageSize: 30 }}
-                           loading={loading}
-                           rowKey={record => record.id}
-                           scroll={{ y: 500 }} />
-                </div>
+                <Table rowSelection={rowSelection}
+                       columns={columns}
+                       dataSource={data}
+                       pagination={{ pageSize: 30 }}
+                       loading={loading}
+                       rowKey={record => record.id}
+                       scroll={{ y: 500 }} />
         );
     };
 
@@ -140,8 +132,14 @@ class StbAccount extends React.Component {
     render() {
         return (
                 <div>
+                    <Button type="primary"
+                            className={styles.delete_btn}
+                            disabled = {this.state.selectedRows.length ? false : true}
+                            onClick={this.showDeleteConfirm}>
+                        删除机顶盒用户
+                    </Button>
                     {this.renderTable()}
-                    <Modal width="350"
+                    <Modal style={{top:300}}
                            visible={this.state.confirmVisible}
                            onOk={this.onDelete}
                            onCancel={this.handleConfirmCancle}

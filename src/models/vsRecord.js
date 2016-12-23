@@ -1,11 +1,11 @@
 /**
- * Created by echo on 2016/12/21.
+ * Created by echo on 2016/12/23.
  */
 import * as service from "../services/record";
 
 export default {
 
-    namespace: 'stbRecord',
+    namespace: 'vsRecord',
 
     state: {
         list: [],
@@ -24,7 +24,7 @@ export default {
             yield put({
                 type: 'showLoading',
             });
-            const { response, err } = yield call(service.getStbRecord, payload);
+            const { response, err } = yield call(service.getVsRecord, payload);
             if(err || !response){
                 yield put({type:'queryFailed',payload:err.message});
                 return;
@@ -50,7 +50,7 @@ export default {
             yield put({
                 type: 'showLoading',
             });
-            const { response, err } = yield call(service.getStbRecordByNumber, payload);
+            const { response, err } = yield call(service.getVsRecordByNumber, payload);
             if(err || !response){
                 yield put({type:'queryByNumberFailed',payload:err.message});
                 return;
@@ -98,3 +98,4 @@ export default {
     },
 
 }
+

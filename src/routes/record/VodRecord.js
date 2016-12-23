@@ -1,20 +1,18 @@
 /**
- * Created by echo on 2016/12/21.
+ * Created by echo on 2016/12/23.
  */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'dva';
-import { Input, Table, Modal } from 'antd';
+import { Table, Modal } from 'antd';
 
 import styles from './StbRecord.less';
 
-const Search = Input.Search;
-
-class StbRecord extends React.Component {
+class VodRecord extends React.Component {
 
     componentWillMount() {
         const { dispatch } = this.props;
         dispatch({
-            type: 'stbRecord/query',
+            type: 'vodRecord/query',
         });
     }
 
@@ -33,7 +31,7 @@ class StbRecord extends React.Component {
                 ),
                 onOk(){
                     dispatch({
-                        type: 'stbRecord/hideErrorModal',
+                        type: 'vodRecord/hideErrorModal',
                     });
                 },
             });
@@ -44,19 +42,23 @@ class StbRecord extends React.Component {
 
     renderTable = () => {
         const columns = [{
-            title: '克拉号',
+            title: '点播用户',
             dataIndex: 'number',
             width: 80,
         }, {
-            title: '时间',
+            title: '标题',
+            dataIndex: 'name',
+            width: 120,
+        }, {
+            title: '播放时间',
             dataIndex: 'time',
             width: 120,
         }, {
-            title: '类型',
+            title: '视频类型',
             // dataIndex: 'type',
             width: 80,
             render: (text, record) => { //每一个行的信息 data[record.id]
-                const status = ["开机", "关机"];
+                const status = ["VR", "普通"];
                 return(
                         <div>
                             <p>{status[record.type]}</p>
@@ -73,6 +75,7 @@ class StbRecord extends React.Component {
                 key: i,
                 id: obj.id,
                 number: obj.number,
+                name: obj.name,
                 time: obj.time,
                 type: obj.type
             }
@@ -92,34 +95,13 @@ class StbRecord extends React.Component {
     render() {
         return (
                 <div>
-                    <label className={styles.my_label}>搜索</label>
-                    <Search placeholder="克拉号"
-                            className={styles.search_Input}
-                            onSearch={(value) => {
-                                const { dispatch } = this.props;
-                                if (value === "") {
-                                    console.log("query");
-                                    dispatch({
-                                        type: 'stbRecord/query',
-                                    });
-                                } else {
-                                    console.log("queryByNumber");
-                                    dispatch({
-                                        type: 'stbRecord/queryByNumber',
-                                        payload: {
-                                            number: value
-                                        }
-                                    });
-                                }
-                                console.log(value);
-                            }} />
                     {this.renderTable()}
                 </div>
         );
     }
 }
 
-StbRecord.propTypes = {
+VodRecord.propTypes = {
     list: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
     errorModalVisible: PropTypes.bool.isRequired,
@@ -128,11 +110,11 @@ StbRecord.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        list : state.stbRecord.list,
-        loading : state.stbRecord.loading,
-        errorModalVisible: state.stbRecord.errorModalVisible,
-        error: state.stbRecord.error,
+        list : state.vodRecord.list,
+        loading : state.vodRecord.loading,
+        errorModalVisible: state.vodRecord.errorModalVisible,
+        error: state.vodRecord.error,
     }
 }
 
-export default connect(mapStateToProps)(StbRecord)
+export default connect(mapStateToProps)(VodRecord)

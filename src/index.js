@@ -34,6 +34,8 @@ app.model(require('./models/customer'));
 app.model(require('./models/stb'));
 app.model(require('./models/account'));
 app.model(require('./models/stbRecord'));
+app.model(require('./models/vsRecord'));
+app.model(require('./models/vodRecord'));
 app.model(require('./models/content'));
 
 // 4. Router

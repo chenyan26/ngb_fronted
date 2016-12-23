@@ -6,7 +6,7 @@ import { connect } from 'dva';
 import { Button, Table, Popconfirm, Modal, Form, Input } from 'antd';
 const FormItem = Form.Item;
 
-import styles from './Customer.less';
+import styles from '../src/routes/Customer.less';
 
 class Customer_old extends React.Component {
 

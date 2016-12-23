@@ -19,7 +19,8 @@ for (let i = 1; i < 71; i++) {
         actors:"伊桑·霍克，威廉·达福，伊莎贝尔·卢卡斯",
         region:"美国",
         synopsis:"爱德华·道尔顿在一次意外结识了人类奥德丽·班尼特，通过她认识了在一次意外中由吸血鬼奇迹般变成人类的艾维斯，在三人的共同努力下，找到了由吸血鬼变成人类的方法。",
-        tags:["动作冒险","欧美片场"]
+        tags:["动作冒险","欧美片场"],
+        url:"http://119.44.217.18/sxpx.mp4"
     });
 }
 
@@ -44,7 +45,8 @@ module.exports = {
                 actors: item.actors,
                 region:item.region,
                 synopsis: item.synopsis,
-                tags:item.tags}
+                tags:item.tags,
+                url:item.url}
         });
     },
 

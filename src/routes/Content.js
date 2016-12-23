@@ -209,7 +209,8 @@ class Content extends React.Component {
                 actors: obj.actors,
                 region: obj.region,
                 synopsis: obj.synopsis,
-                tags: obj.tags
+                tags: obj.tags,
+                url:obj.url
             }
         });
 
@@ -223,6 +224,20 @@ class Content extends React.Component {
         };
 
         return (
+                <Table rowSelection={rowSelection}
+                       columns={columns}
+                       dataSource={data}
+                       pagination={{ pageSize: 30 }}
+                       loading={loading}
+                       rowKey={record => record.id}
+                       scroll={{ y: 500 }} />
+        );
+    };
+
+    //----------------render--------------------
+
+    render() {
+        return (
                 <div>
                     <Button type="primary"
                             className={styles.add_btn}
@@ -235,25 +250,9 @@ class Content extends React.Component {
                             onClick={this.showDeleteConfirm}>
                         删除视频
                     </Button>
-                    <Table rowSelection={rowSelection}
-                           columns={columns}
-                           dataSource={data}
-                           pagination={{ pageSize: 30 }}
-                           loading={loading}
-                           rowKey={record => record.id}
-                           scroll={{ y: 500 }} />
-                </div>
-        );
-    };
-
-    //----------------render--------------------
-
-    render() {
-        return (
-                <div>
                     {this.renderTable()}
                     {this.renderModal()}
-                    <Modal width="350"
+                    <Modal style={{top:300}}
                            visible={this.state.confirmVisible}
                            onOk={this.onDelete}
                            onCancel={this.handleConfirmCancle}

@@ -1,20 +1,20 @@
 /**
- * Created by echo on 2016/12/21.
+ * Created by echo on 2016/12/23.
  */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'dva';
 import { Input, Table, Modal } from 'antd';
 
-import styles from './StbRecord.less';
+import styles from './VsRecord.less';
 
 const Search = Input.Search;
 
-class StbRecord extends React.Component {
+class VsRecord extends React.Component {
 
     componentWillMount() {
         const { dispatch } = this.props;
         dispatch({
-            type: 'stbRecord/query',
+            type: 'vsRecord/query',
         });
     }
 
@@ -33,7 +33,7 @@ class StbRecord extends React.Component {
                 ),
                 onOk(){
                     dispatch({
-                        type: 'stbRecord/hideErrorModal',
+                        type: 'vsRecord/hideErrorModal',
                     });
                 },
             });
@@ -44,22 +44,34 @@ class StbRecord extends React.Component {
 
     renderTable = () => {
         const columns = [{
-            title: '克拉号',
-            dataIndex: 'number',
+            title: '主叫',
+            dataIndex: 'call_number',
             width: 80,
         }, {
-            title: '时间',
-            dataIndex: 'time',
+            title: '被叫',
+            dataIndex: 'answer_number',
             width: 120,
         }, {
-            title: '类型',
-            // dataIndex: 'type',
+            title: '拨出时间',
+            dataIndex: 'call_time',
+            width: 120,
+        }, {
+            title: '接通时间',
+            dataIndex: 'answer_time',
+            width: 120,
+        }, {
+            title: '结束时间',
+            dataIndex: 'end_time',
+            width: 120,
+        }, {
+            title: '呼叫方式',
+            // dataIndex: 'way',
             width: 80,
             render: (text, record) => { //每一个行的信息 data[record.id]
-                const status = ["开机", "关机"];
+                const status = ["NFC", "非NFC"];
                 return(
                         <div>
-                            <p>{status[record.type]}</p>
+                            <p>{status[record.way]}</p>
                         </div>
                 );
             },
@@ -72,9 +84,12 @@ class StbRecord extends React.Component {
             data[i] = {
                 key: i,
                 id: obj.id,
-                number: obj.number,
-                time: obj.time,
-                type: obj.type
+                call_number: obj.call_number,
+                answer_number: obj.answer_number,
+                call_time: obj.call_time,
+                answer_time: obj.answer_time,
+                end_time: obj.end_time,
+                way: obj.way
             }
         });
 
@@ -100,12 +115,12 @@ class StbRecord extends React.Component {
                                 if (value === "") {
                                     console.log("query");
                                     dispatch({
-                                        type: 'stbRecord/query',
+                                        type: 'vsRecord/query',
                                     });
                                 } else {
                                     console.log("queryByNumber");
                                     dispatch({
-                                        type: 'stbRecord/queryByNumber',
+                                        type: 'vsRecord/queryByNumber',
                                         payload: {
                                             number: value
                                         }
@@ -119,7 +134,7 @@ class StbRecord extends React.Component {
     }
 }
 
-StbRecord.propTypes = {
+VsRecord.propTypes = {
     list: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
     errorModalVisible: PropTypes.bool.isRequired,
@@ -128,11 +143,11 @@ StbRecord.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        list : state.stbRecord.list,
-        loading : state.stbRecord.loading,
-        errorModalVisible: state.stbRecord.errorModalVisible,
-        error: state.stbRecord.error,
+        list : state.vsRecord.list,
+        loading : state.vsRecord.loading,
+        errorModalVisible: state.vsRecord.errorModalVisible,
+        error: state.vsRecord.error,
     }
 }
 
-export default connect(mapStateToProps)(StbRecord)
+export default connect(mapStateToProps)(VsRecord)
