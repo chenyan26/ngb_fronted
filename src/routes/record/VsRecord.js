@@ -11,13 +11,6 @@ const Search = Input.Search;
 
 class VsRecord extends React.Component {
 
-    componentWillMount() {
-        const { dispatch } = this.props;
-        dispatch({
-            type: 'vsRecord/query',
-        });
-    }
-
     componentDidUpdate(prevProps, prevState, prevContext) {
         const { errorModalVisible, dispatch, error } = this.props;
         if (errorModalVisible) {

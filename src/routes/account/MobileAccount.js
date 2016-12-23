@@ -15,15 +15,6 @@ class MobileAccount extends React.Component {
         confirmVisible: false
     };
 
-    componentWillMount() {
-        const { dispatch } = this.props;
-        console.log("MobileAccount-componentWillMount");
-        dispatch({
-            type: 'account/query',
-            payload: {type: 1}
-        });
-    }
-
     componentDidUpdate(prevProps, prevState, prevContext) {
         const { errorModalVisible, dispatch, error } = this.props;
         if (errorModalVisible) {

@@ -17,7 +17,23 @@ export default {
     },
 
     subscriptions: {
-
+        setup({ dispatch, history }) {
+            history.listen(({ pathname }) => {
+                if (pathname === '/stb_account') {
+                    console.log('stb_account-------');
+                    dispatch({
+                        type: 'query',
+                        payload: {type: 0}
+                    });
+                } else if (pathname === '/mobile_account') {
+                    console.log('mobile_account-------');
+                    dispatch({
+                        type: 'query',
+                        payload: {type: 1}
+                    });
+                }
+            });
+        },
     },
 
     effects: {

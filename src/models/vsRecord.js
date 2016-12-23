@@ -15,7 +15,16 @@ export default {
     },
 
     subscriptions: {
-
+        setup({ dispatch, history }) {
+            history.listen(({ pathname }) => {
+                if (pathname === '/vs_record') {
+                    console.log('vs_record-------');
+                    dispatch({
+                        type: 'query',
+                    });
+                }
+            });
+        },
     },
 
     effects: {

@@ -15,7 +15,16 @@ export default {
     },
 
     subscriptions: {
-
+        setup({ dispatch, history }) {
+            history.listen(({ pathname }) => {
+                if (pathname === '/stb_record') {
+                    console.log('stb_record-------');
+                    dispatch({
+                        type: 'query',
+                    });
+                }
+            });
+        },
     },
 
     effects: {

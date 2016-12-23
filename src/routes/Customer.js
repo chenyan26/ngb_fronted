@@ -15,13 +15,6 @@ class Customer extends React.Component {
         confirmVisible: false
     };
 
-    componentWillMount() {
-        const { dispatch } = this.props;
-        dispatch({
-            type: 'customer/query',
-        });
-    }
-
     componentDidUpdate(prevProps, prevState, prevContext) {
         const { errorModalVisible, dispatch, error } = this.props;
         if (errorModalVisible) {

@@ -19,7 +19,16 @@ export default {
   },
 
   subscriptions: {
-
+    setup({ dispatch, history }) {
+      history.listen(({ pathname }) => {
+        if (pathname === '/customer') {
+          console.log('customer-------');
+          dispatch({
+            type: 'query',
+          });
+        }
+      });
+    },
   },
 
   effects: {

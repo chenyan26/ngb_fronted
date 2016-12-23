@@ -11,13 +11,6 @@ const Search = Input.Search;
 
 class StbRecord extends React.Component {
 
-    componentWillMount() {
-        const { dispatch } = this.props;
-        dispatch({
-            type: 'stbRecord/query',
-        });
-    }
-
     componentDidUpdate(prevProps, prevState, prevContext) {
         const { errorModalVisible, dispatch, error } = this.props;
         if (errorModalVisible) {

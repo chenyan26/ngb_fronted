@@ -22,7 +22,7 @@ for (let i = 1; i < 61; i++) {
         call_number: '12'+i,
         answer_number: '24'+i,
         call_time:"2016-11-24 23:10",
-        answerl_time:"2016-11-24 23:10",
+        answer_time:"2016-11-24 23:10",
         end_time:"2016-11-24 23:13",
         way: i%2
     });

@@ -9,13 +9,6 @@ import styles from './StbRecord.less';
 
 class VodRecord extends React.Component {
 
-    componentWillMount() {
-        const { dispatch } = this.props;
-        dispatch({
-            type: 'vodRecord/query',
-        });
-    }
-
     componentDidUpdate(prevProps, prevState, prevContext) {
         const { errorModalVisible, dispatch, error } = this.props;
         if (errorModalVisible) {

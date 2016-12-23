@@ -15,13 +15,6 @@ class Content extends React.Component {
         confirmVisible: false
     };
 
-    componentWillMount() {
-        const { dispatch } = this.props;
-        dispatch({
-            type: 'content/query',
-        });
-    }
-
     componentDidUpdate(prevProps, prevState, prevContext) {
         const { errorModalVisible, dispatch, error } = this.props;
         if (errorModalVisible) {

@@ -15,14 +15,6 @@ class Stb extends React.Component {
         confirmVisible: false
     };
 
-    componentWillMount() {
-        const { dispatch } = this.props;
-        console.log("Stb-componentWillMount");
-        dispatch({
-            type: 'stb/query',
-        });
-    }
-
     componentDidUpdate(prevProps, prevState, prevContext) {
         const { errorModalVisible, dispatch, error } = this.props;
         if (errorModalVisible) {

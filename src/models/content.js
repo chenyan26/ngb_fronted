@@ -20,7 +20,16 @@ export default {
     },
 
     subscriptions: {
-
+        setup({ dispatch, history }) {
+            history.listen(({ pathname }) => {
+                if (pathname === '/content') {
+                    console.log('content-------');
+                    dispatch({
+                        type: 'query',
+                    });
+                }
+            });
+        },
     },
 
     effects: {

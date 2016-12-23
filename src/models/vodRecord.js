@@ -15,7 +15,16 @@ export default {
     },
 
     subscriptions: {
-
+        setup({ dispatch, history }) {
+            history.listen(({ pathname }) => {
+                if (pathname === '/vod_record') {
+                    console.log('vod_record-------');
+                    dispatch({
+                        type: 'query',
+                    });
+                }
+            });
+        },
     },
 
     effects: {

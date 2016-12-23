@@ -19,7 +19,16 @@ export default {
     },
 
     subscriptions: {
-
+        setup({ dispatch, history }) {
+            history.listen(({ pathname }) => {
+                if (pathname === '/stb') {
+                    console.log('stb-------');
+                    dispatch({
+                        type: 'query',
+                    });
+                }
+            });
+        },
     },
 
     effects: {

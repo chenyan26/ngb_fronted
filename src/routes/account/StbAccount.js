@@ -15,14 +15,6 @@ class StbAccount extends React.Component {
         confirmVisible: false
     };
 
-    componentWillMount() {
-        const { dispatch } = this.props;
-        dispatch({
-            type: 'account/query',
-            payload: {type: 0}
-        });
-    }
-
     componentDidUpdate(prevProps, prevState, prevContext) {
         const { errorModalVisible, dispatch, error } = this.props;
         if (errorModalVisible) {
