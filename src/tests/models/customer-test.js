@@ -5,11 +5,11 @@ describe('customer', () => {
 
 	describe('reducer', () => {
 
-		describe('deleteSuccess', () => {
-			it('should be the same', () => {
-				expect(customer.reducers['deleteSuccess']({}, {})).toExist("存在");
-			});
-		})
+		// describe('deleteSuccess', () => {
+		// 	it('should be the same', () => {
+		// 		expect(customer.reducers['deleteSuccess']({}, {})).toExist("存在");
+		// 	});
+		// })
 
 	})
 });

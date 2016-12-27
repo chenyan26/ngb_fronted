@@ -60,7 +60,7 @@ class StbAccount extends React.Component {
             type: 'account/delete',
             payload:  {
                 ids: idArr,
-                type: 0
+                type: 1
             }
         });
     };

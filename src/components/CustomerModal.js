@@ -16,7 +16,7 @@ class CustomerModal extends React.Component {
     componentWillMount() {
         const { item, isEmpty} = this.props;
         let objs = [0];
-        if (!isEmpty) {
+        if (!isEmpty && item.serial_number) {
             uuid = item.serial_number.length - 1;
             for (let i = 1; i < item.serial_number.length; i++) {
                 objs.push(i);
@@ -61,7 +61,7 @@ class CustomerModal extends React.Component {
     };
 
     handleOk = ()=> {
-        const { getFieldsValue, validateFields, getFieldValue} = this.props.form;
+        const { getFieldsValue, validateFields, getFieldValue, isEmpty } = this.props.form;
         const { onOk, item } = this.props;
 
         const keys = getFieldValue('keys');
@@ -124,7 +124,7 @@ class CustomerModal extends React.Component {
         const keys = getFieldValue('keys');
         const formItems = keys.map((k, index) => {
             let it = "";
-            if (!isEmpty) {
+            if (!isEmpty && item.serial_number) {
                 it = item.serial_number[k] ? item.serial_number[k] :"";
             }
             return (
@@ -185,7 +185,7 @@ class CustomerModal extends React.Component {
                                 {...formItemLayout}
                                 label="性别"
                         >
-                            {getFieldDecorator('gender', { initialValue: `${item.gender ? "女" : "男"}`})(
+                            {getFieldDecorator('gender', { initialValue: `${isEmpty ? "0" : item.gender}`})(
                                     <Select>
                                         <Option value="0">男</Option>
                                         <Option value="1">女</Option>

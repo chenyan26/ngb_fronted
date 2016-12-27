@@ -4,30 +4,26 @@
 import request from '../utils/request';
 import qs from 'qs';
 
-// import cfg from '../../app.config';
-
-// export async function query(params) {
-// 	return request(`/api/users?${qs.stringify(params)}`);
-// }
+import { url, strFromArr } from './util';
 
 export async function query(params) {
-    return request('admin/getAccount', {
+    return request(url + 'getAccount', {
         method: 'post',
-        // headers: {
-        // 	/*Must have this to make Nutz backend recognize.*/
-        // 	'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        // },
+        headers: {
+        	/*Must have this to make Nutz backend recognize.*/
+        	'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
         body: qs.stringify(params),
     });
 }
 
 export async function remove(params) {
-    return request('admin/deleteAccount', {
+    return request(url + 'deleteAccount', {
         method: 'post',
-        // headers: {
-        // 	/*Must have this to make Nutz backend recognize.*/
-        // 	'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        // },
-        body: qs.stringify(params),
+        headers: {
+        	/*Must have this to make Nutz backend recognize.*/
+        	'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        body: strFromArr(params),
     });
 }

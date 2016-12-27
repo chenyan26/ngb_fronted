@@ -53,8 +53,8 @@ export default {
                 /**
                  * 根据code判断错误类型并提示
                  */
-                if (response.code == 1) {
-                    msg = "该克拉号不存在";
+                if (response.code == 40012) {
+                    msg = "ERR_DATABASE";
                 }
                 yield put({type:'queryFailed', payload:msg});
             }
@@ -78,8 +78,8 @@ export default {
                 /**
                  * 根据code判断错误类型并提示
                  */
-                if (response.code == 1) {
-                    msg = "该克拉号不存在";
+                if (response.code == 40012) {
+                    msg = "ERR_DATABASE";
                 }
                 yield put({type:'createFailed', payload:msg});
             }
@@ -104,8 +104,8 @@ export default {
                 /**
                  * 根据code判断错误类型并提示
                  */
-                if (response.code == 1) {
-                    msg = "该克拉号不存在";
+                if (response.code == 40012) {
+                    msg = "ERR_DATABASE";
                 }
                 yield put({type:'deleteFailed', payload:msg});
             }
@@ -129,8 +129,8 @@ export default {
                 /**
                  * 根据code判断错误类型并提示
                  */
-                if (response.code == 1) {
-                    msg = "该克拉号不存在";
+                if (response.code == 40012) {
+                    msg = "ERR_DATABASE";
                 }
                 yield put({type:'updateFailed', payload:msg});
             }
@@ -170,8 +170,7 @@ export default {
         },
 
         deleteSuccess(state,  { payload }) {
-            console.log("content-reducer - deleteSuccess");
-            console.log("payload:"+ payload);
+            console.log("content-reducer - deleteSuccess: " + payload);
             let content = state.list;
             for (let i = 0; i < payload.length; i ++) {
                 content = content.filter(s => s.id != payload[i]);

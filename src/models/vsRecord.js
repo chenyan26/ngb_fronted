@@ -48,8 +48,8 @@ export default {
                 /**
                  * 根据code判断错误类型并提示
                  */
-                if (response.code == 1) {
-                    msg = "该克拉号不存在";
+                if (response.code == 40012) {
+                    msg = "ERR_DATABASE";
                 }
                 yield put({type:'queryFailed', payload:msg});
             }
@@ -74,8 +74,8 @@ export default {
                 /**
                  * 根据code判断错误类型并提示
                  */
-                if (response.code == 1) {
-                    msg = "该克拉号不存在";
+                if (response.code == 40012) {
+                    msg = "ERR_DATABASE";
                 }
                 yield put({type:'queryByNumberFailed', payload:msg});
             }

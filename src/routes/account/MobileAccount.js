@@ -60,7 +60,7 @@ class MobileAccount extends React.Component {
             type: 'account/delete',
             payload:  {
                 ids: idArr,
-                type: 1
+                type: 0
             }
         });
     };

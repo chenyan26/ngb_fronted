@@ -40,9 +40,7 @@ export default {
       const { response, err } = yield call(service.query, payload);
       if(err || !response){
         yield put({type:'queryFailed',payload:err.message});
-        return;
-      }
-      if(response.code == 0) {
+      }else if(response.code == 0) {
         yield put({
           type: 'querySuccess',
           payload: response.data,
@@ -52,8 +50,8 @@ export default {
         /**
          * 根据code判断错误类型并提示
          */
-        if (response.code == 1) {
-          msg = "该克拉号不存在";
+        if (response.code == 40012) {
+          msg = "ERR_DATABASE";
         }
         yield put({type:'queryFailed', payload:msg});
       }
@@ -64,9 +62,7 @@ export default {
       const { response, err } = yield call(service.create, payload);
       if(err || !response){
         yield put({type:'createFailed',payload:err.message});
-        return;
-      }
-      if(response.code == 0) {
+      }else if(response.code == 0) {
         yield put({
           type: 'createSuccess',
           payload: response.data,
@@ -77,8 +73,8 @@ export default {
         /**
          * 根据code判断错误类型并提示
          */
-        if (response.code == 1) {
-          msg = "该克拉号不存在";
+        if (response.code == 40012) {
+          msg = "ERR_DATABASE";
         }
         yield put({type:'createFailed', payload:msg});
       }
@@ -91,9 +87,7 @@ export default {
       const { response, err } = yield call(service.remove, payload);
       if(err || !response){
         yield put({type:'deleteFailed',payload:err.message});
-        return;
-      }
-      if(response.code == 0) {
+      }else if(response.code == 0) {
         yield put({
           type: 'deleteSuccess',
           payload: payload.ids,
@@ -103,8 +97,8 @@ export default {
         /**
          * 根据code判断错误类型并提示
          */
-        if (response.code == 1) {
-          msg = "该克拉号不存在";
+        if (response.code == 40012) {
+          msg = "ERR_DATABASE";
         }
         yield put({type:'deleteFailed', payload:msg});
       }
@@ -115,9 +109,7 @@ export default {
       const { response, err } = yield call(service.update, payload);
       if(err || !response){
         yield put({type:'updateFailed',payload:err.message});
-        return;
-      }
-      if(response.code == 0) {
+      }else if(response.code == 0) {
         yield put({
           type: 'updateSuccess',
           payload: payload,
@@ -128,8 +120,8 @@ export default {
         /**
          * 根据code判断错误类型并提示
          */
-        if (response.code == 1) {
-          msg = "该克拉号不存在";
+        if (response.code == 40012) {
+          msg = "ERR_DATABASE";
         }
         yield put({type:'updateFailed', payload:msg});
       }

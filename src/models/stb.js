@@ -22,7 +22,6 @@ export default {
         setup({ dispatch, history }) {
             history.listen(({ pathname }) => {
                 if (pathname === '/stb') {
-                    console.log('stb-------');
                     dispatch({
                         type: 'query',
                     });
@@ -52,8 +51,8 @@ export default {
                 /**
                  * 根据code判断错误类型并提示
                  */
-                if (response.code == 1) {
-                    msg = "该克拉号不存在";
+                if (response.code == 40012) {
+                    msg = "ERR_DATABASE";
                 }
                 yield put({type:'queryFailed', payload:msg});
             }
@@ -77,8 +76,8 @@ export default {
                 /**
                  * 根据code判断错误类型并提示
                  */
-                if (response.code == 1) {
-                    msg = "该克拉号不存在";
+                if (response.code == 40012) {
+                    msg = "ERR_DATABASE";
                 }
                 yield put({type:'createFailed', payload:msg});
             }
@@ -103,8 +102,8 @@ export default {
                 /**
                  * 根据code判断错误类型并提示
                  */
-                if (response.code == 1) {
-                    msg = "该克拉号不存在";
+                if (response.code == 40012) {
+                    msg = "ERR_DATABASE";
                 }
                 yield put({type:'deleteFailed', payload:msg});
             }
@@ -128,7 +127,12 @@ export default {
         },
 
         querySuccess(state, { payload }) {
-            return { ...state, list: payload, loading: false};
+            const qList = [];
+            payload.map((obj) => {
+                const { sn } = obj;
+                qList.push({...obj, sn: undefined, serial_number: sn});
+            });
+            return { ...state, list: qList, loading: false};
         },
         queryFailed(state, { payload }){
             return { ...state, error: payload, loading: false, errorModalVisible: true };
@@ -136,7 +140,8 @@ export default {
 
         createSuccess(state, action) {
             const newList = state.list;
-            newList.push(action.payload);
+            const { id, sn } = action.payload;
+            newList.push({id : id, serial_number: sn});
             return { ...state, list:newList, loading: false };
         },
         createFailed(state, { payload }){
@@ -144,8 +149,7 @@ export default {
         },
 
         deleteSuccess(state,  { payload }) {
-            console.log("stb-reducer - deleteSuccess");
-            console.log("payload:"+ payload);
+            console.log("stb-reducer - deleteSuccess: " + payload);
             let stb = state.list;
             for (let i = 0; i < payload.length; i ++) {
                 stb = stb.filter(s => s.id != payload[i]);

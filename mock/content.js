@@ -24,6 +24,19 @@ for (let i = 1; i < 71; i++) {
     });
 }
 
+/*
+ "id": 1,
+ "name": "北京动物园老虎咬人了",
+ "type": "网络视频",
+ "region": "大陆",
+ "year": "2016",
+ "duration": "3:00",
+ "synopsis": "北京动物园老虎咬人了，速来围观",
+ "url": "http://119.44.217.18/live.mp4",
+ "is_vr": false,
+ "play_count": 0
+ */
+
 module.exports = {
     'GET /admin/getContent': function (req, res) {
         res.json({

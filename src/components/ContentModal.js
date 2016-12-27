@@ -22,6 +22,7 @@ let tagList= [
         { name: "内地港台", value: 4, disabled: false },
         { name: "日韩亚太", value: 5, disabled: false },
         { name: "欧美片场", value: 6, disabled: false },
+        { name: "VR专区", value: 7, disabled: false },
 ];
 
 class ContentModal extends React.Component {
