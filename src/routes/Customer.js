@@ -250,7 +250,6 @@ class Customer extends React.Component {
 
 Customer.propTypes = {
     list: PropTypes.array.isRequired,
-    loading: PropTypes.bool.isRequired,
     modalVisible: PropTypes.bool.isRequired,
     newModal: PropTypes.bool.isRequired,
     currentItem: PropTypes.object.isRequired,
@@ -261,7 +260,7 @@ Customer.propTypes = {
 function mapStateToProps(state) {
     return {
         list : state.customer.list,
-        loading : state.customer.loading,
+        loading : state.loading.models.customer,
         modalVisible: state.customer.modalVisible,
         newModal: state.customer.newModal,
         currentItem: state.customer.currentItem,

@@ -60,7 +60,7 @@ class StbAccount extends React.Component {
             type: 'account/delete',
             payload:  {
                 ids: idArr,
-                type: 1
+                type: 0
             }
         });
     };
@@ -153,7 +153,7 @@ StbAccount.propTypes = {
 function mapStateToProps(state) {
     return {
         stbList : state.account.stbList,
-        loading : state.account.loading,
+        loading : state.loading.models.account,
         errorModalVisible: state.account.errorModalVisible,
         error: state.account.error
     }

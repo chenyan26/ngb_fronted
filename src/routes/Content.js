@@ -259,7 +259,6 @@ class Content extends React.Component {
 
 Content.propTypes = {
     list: PropTypes.array.isRequired,
-    loading: PropTypes.bool.isRequired,
     modalVisible: PropTypes.bool.isRequired,
     newModal: PropTypes.bool.isRequired,
     currentItem: PropTypes.object.isRequired,
@@ -270,7 +269,7 @@ Content.propTypes = {
 function mapStateToProps(state) {
     return {
         list : state.content.list,
-        loading : state.content.loading,
+        loading : state.loading.models.content,
         modalVisible: state.content.modalVisible,
         newModal: state.content.newModal,
         currentItem: state.content.currentItem,

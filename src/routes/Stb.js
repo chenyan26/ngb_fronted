@@ -189,7 +189,6 @@ class Stb extends React.Component {
 
 Stb.propTypes = {
     list: PropTypes.array.isRequired,
-    loading: PropTypes.bool.isRequired,
     modalVisible: PropTypes.bool.isRequired,
     errorModalVisible: PropTypes.bool.isRequired,
     error: PropTypes.string.isRequired,
@@ -198,7 +197,7 @@ Stb.propTypes = {
 function mapStateToProps(state) {
     return {
         list : state.stb.list,
-        loading : state.stb.loading,
+        loading : state.loading.models.stb,
         modalVisible: state.stb.modalVisible,
         errorModalVisible: state.stb.errorModalVisible,
         error: state.stb.error

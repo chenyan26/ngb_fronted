@@ -9,7 +9,6 @@ export default {
 
     state: {
         list: [],
-        loading: false,
         errorModalVisible: false,
         error: ""
     },
@@ -18,7 +17,6 @@ export default {
         setup({ dispatch, history }) {
             history.listen(({ pathname }) => {
                 if (pathname === '/vod_record') {
-                    console.log('vod_record-------');
                     dispatch({
                         type: 'query',
                     });
@@ -30,9 +28,6 @@ export default {
     effects: {
 
         *query({ payload }, { call, put }) {
-            yield put({
-                type: 'showLoading',
-            });
             const { response, err } = yield call(service.getVodRecord, payload);
             if(err || !response){
                 yield put({type:'queryFailed',payload:err.message});
@@ -57,19 +52,16 @@ export default {
     },
 
     reducers: {
-        showLoading(state) {
-            return { ...state, loading: true };
-        },
 
         hideErrorModal(state) {
             return { ...state, errorModalVisible: false };
         },
 
         querySuccess(state, { payload }) {
-            return { ...state, list: payload, loading: false};
+            return { ...state, list: payload};
         },
         queryFailed(state, { payload }){
-            return { ...state, error: payload, loading: false, errorModalVisible: true };
+            return { ...state, error: payload, errorModalVisible: true };
         },
     }
 }

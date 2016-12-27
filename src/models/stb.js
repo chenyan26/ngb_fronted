@@ -9,7 +9,6 @@ export default {
 
     state: {
         list: [],
-        loading: false,
         // total: null,
         // current: 1,
         currentItem: {},
@@ -33,9 +32,6 @@ export default {
     effects: {
 
         *query({ payload }, { call, put }) {
-            yield put({
-                type: 'showLoading',
-            });
             const { response, err } = yield call(service.query, payload);
             if(err || !response){
                 yield put({type:'queryFailed',payload:err.message});
@@ -59,7 +55,6 @@ export default {
         },
 
         *create({ payload }, { call, put }) {
-            yield put({ type: 'showLoading' });
             const { response, err } = yield call(service.create, payload);
             if(err || !response){
                 yield put({type:'createFailed',payload:err.message});
@@ -84,9 +79,6 @@ export default {
         },
 
         *'delete'({ payload }, { call, put }) {
-            yield put({
-                type: 'showLoading'
-            });
             const { response, err } = yield call(service.remove, payload);
             if(err || !response){
                 yield put({type:'deleteFailed',payload:err.message});
@@ -111,9 +103,6 @@ export default {
     },
 
     reducers: {
-        showLoading(state) {
-            return { ...state, loading: true };
-        },
 
         showModal(state, action) {
             return { ...state, ...action.payload, modalVisible: true };
@@ -132,20 +121,20 @@ export default {
                 const { sn } = obj;
                 qList.push({...obj, sn: undefined, serial_number: sn});
             });
-            return { ...state, list: qList, loading: false};
+            return { ...state, list: qList };
         },
         queryFailed(state, { payload }){
-            return { ...state, error: payload, loading: false, errorModalVisible: true };
+            return { ...state, error: payload, errorModalVisible: true };
         },
 
         createSuccess(state, action) {
             const newList = state.list;
             const { id, sn } = action.payload;
             newList.push({id : id, serial_number: sn});
-            return { ...state, list:newList, loading: false };
+            return { ...state, list:newList };
         },
         createFailed(state, { payload }){
-            return { ...state, error: payload, loading: false, errorModalVisible: true};
+            return { ...state, error: payload, errorModalVisible: true};
         },
 
         deleteSuccess(state,  { payload }) {
@@ -154,10 +143,10 @@ export default {
             for (let i = 0; i < payload.length; i ++) {
                 stb = stb.filter(s => s.id != payload[i]);
             }
-            return { ...state, list: stb, loading: false };
+            return { ...state, list: stb };
         },
         deleteFailed(state, { payload }){
-            return { ...state, error: payload, loading: false, errorModalVisible: true};
+            return { ...state, error: payload, errorModalVisible: true};
         },
     },
 

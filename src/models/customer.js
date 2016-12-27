@@ -8,7 +8,6 @@ export default {
 
   state: {
     list: [],
-    loading: false,
     // total: null,
     // current: 1,
     currentItem: {},
@@ -22,7 +21,6 @@ export default {
     setup({ dispatch, history }) {
       history.listen(({ pathname }) => {
         if (pathname === '/customer') {
-          console.log('customer-------');
           dispatch({
             type: 'query',
           });
@@ -34,9 +32,6 @@ export default {
   effects: {
 
     *query({ payload }, { call, put }) {
-      yield put({
-        type: 'showLoading',
-      });
       const { response, err } = yield call(service.query, payload);
       if(err || !response){
         yield put({type:'queryFailed',payload:err.message});
@@ -58,7 +53,6 @@ export default {
     },
 
     *create({ payload }, { call, put }) {
-      yield put({ type: 'showLoading' });
       const { response, err } = yield call(service.create, payload);
       if(err || !response){
         yield put({type:'createFailed',payload:err.message});
@@ -81,9 +75,6 @@ export default {
     },
 
     *'delete'({ payload }, { call, put }) {
-      yield put({
-          type: 'showLoading'
-      });
       const { response, err } = yield call(service.remove, payload);
       if(err || !response){
         yield put({type:'deleteFailed',payload:err.message});
@@ -105,7 +96,6 @@ export default {
     },
 
     *update({ payload }, { call, put }) {
-      yield put({ type: 'showLoading' });
       const { response, err } = yield call(service.update, payload);
       if(err || !response){
         yield put({type:'updateFailed',payload:err.message});
@@ -129,9 +119,6 @@ export default {
   },
 
   reducers: {
-    showLoading(state) {
-      return { ...state, loading: true };
-    },
 
     showModal(state, action) {
       return { ...state, ...action.payload, modalVisible: true };
@@ -145,19 +132,19 @@ export default {
     },
 
     querySuccess(state, { payload }) {
-      return { ...state, list: payload, loading: false};
+      return { ...state, list: payload };
     },
     queryFailed(state, { payload }){
-      return { ...state, error: payload, loading: false, errorModalVisible: true };
+      return { ...state, error: payload, errorModalVisible: true };
     },
 
     createSuccess(state, action) {
       const newList = state.list;
       newList.push(action.payload);
-      return { ...state, list:newList, loading: false };
+      return { ...state, list:newList };
     },
     createFailed(state, { payload }){
-      return { ...state, error: payload, loading: false, errorModalVisible: true };
+      return { ...state, error: payload, errorModalVisible: true };
     },
 
     deleteSuccess(state,  { payload }) {
@@ -167,10 +154,10 @@ export default {
       for (let i = 0; i < payload.length; i ++) {
         customer = customer.filter(s => s.id != payload[i]);
       }
-      return { ...state, list: customer, loading: false };
+      return { ...state, list: customer };
     },
     deleteFailed(state, { payload }){
-      return { ...state, error: payload, loading: false, errorModalVisible: true };
+      return { ...state, error: payload, errorModalVisible: true };
     },
 
     updateSuccess(state, { payload }) {
@@ -180,10 +167,10 @@ export default {
         }
         return customer;
       });
-      return { ...state, list: newList, loading: false };
+      return { ...state, list: newList };
     },
     updateFailed(state, {payload}){
-      return { ...state, error: payload, loading: false, errorModalVisible: true };
+      return { ...state, error: payload, errorModalVisible: true };
     },
   },
 

@@ -114,7 +114,6 @@ class StbRecord extends React.Component {
 
 StbRecord.propTypes = {
     list: PropTypes.array.isRequired,
-    loading: PropTypes.bool.isRequired,
     errorModalVisible: PropTypes.bool.isRequired,
     error: PropTypes.string.isRequired,
 };
@@ -122,7 +121,7 @@ StbRecord.propTypes = {
 function mapStateToProps(state) {
     return {
         list : state.stbRecord.list,
-        loading : state.stbRecord.loading,
+        loading : state.loading.models.stbRecord,
         errorModalVisible: state.stbRecord.errorModalVisible,
         error: state.stbRecord.error,
     }

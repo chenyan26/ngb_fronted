@@ -145,7 +145,6 @@ class MobileAccount extends React.Component {
 
 MobileAccount.propTypes = {
     mobileList: PropTypes.array.isRequired,
-    loading: PropTypes.bool.isRequired,
     errorModalVisible: PropTypes.bool.isRequired,
     error: PropTypes.string.isRequired,
 };
@@ -153,7 +152,7 @@ MobileAccount.propTypes = {
 function mapStateToProps(state) {
     return {
         mobileList : state.account.mobileList,
-        loading : state.account.loading,
+        loading : state.loading.models.account,
         errorModalVisible: state.account.errorModalVisible,
         error: state.account.error
     }

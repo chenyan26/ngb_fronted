@@ -96,7 +96,6 @@ class VodRecord extends React.Component {
 
 VodRecord.propTypes = {
     list: PropTypes.array.isRequired,
-    loading: PropTypes.bool.isRequired,
     errorModalVisible: PropTypes.bool.isRequired,
     error: PropTypes.string.isRequired,
 };
@@ -104,7 +103,7 @@ VodRecord.propTypes = {
 function mapStateToProps(state) {
     return {
         list : state.vodRecord.list,
-        loading : state.vodRecord.loading,
+        loading : state.loading.models.vodRecord,
         errorModalVisible: state.vodRecord.errorModalVisible,
         error: state.vodRecord.error,
     }

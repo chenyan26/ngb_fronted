@@ -129,7 +129,6 @@ class VsRecord extends React.Component {
 
 VsRecord.propTypes = {
     list: PropTypes.array.isRequired,
-    loading: PropTypes.bool.isRequired,
     errorModalVisible: PropTypes.bool.isRequired,
     error: PropTypes.string.isRequired,
 };
@@ -137,7 +136,7 @@ VsRecord.propTypes = {
 function mapStateToProps(state) {
     return {
         list : state.vsRecord.list,
-        loading : state.vsRecord.loading,
+        loading : state.loading.models.vsRecord,
         errorModalVisible: state.vsRecord.errorModalVisible,
         error: state.vsRecord.error,
     }

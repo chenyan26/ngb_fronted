@@ -10,7 +10,6 @@ export default {
     state: {
         stbList: [],
         mobileList: [],
-        loading: false,
         // currentItem: {},
         errorModalVisible: false,
         error: ""
@@ -39,9 +38,6 @@ export default {
     effects: {
 
         *query({ payload }, { call, put }) {
-            yield put({
-                type: 'showLoading',
-            });
             const { response, err } = yield call(service.query, payload);
             if(err || !response){
                 yield put({type:'queryFailed',payload:err.message});
@@ -68,9 +64,6 @@ export default {
         },
 
         *'delete'({ payload }, { call, put }) {
-            yield put({
-                type: 'showLoading'
-            });
             const { response, err } = yield call(service.remove, {ids:payload.ids});
             if(err || !response){
                 yield put({type:'deleteFailed',payload:err.message});
@@ -95,10 +88,6 @@ export default {
     },
 
     reducers: {
-        showLoading(state) {
-            return { ...state, loading: true };
-        },
-
         hideErrorModal(state) {
             return { ...state, errorModalVisible: false };
         },
@@ -113,13 +102,13 @@ export default {
                     lately_date: obj.latelyDate})
             });
             if (payload.type == 1) { //机顶盒
-                return {...state, stbList: qList, loading: false};
+                return {...state, stbList: qList};
             } else {
-                return {...state, mobileList: qList, loading: false};
+                return {...state, mobileList: qList};
             }
         },
         queryFailed(state, { payload }){
-            return { ...state, error: payload, loading: false, errorModalVisible: true };
+            return { ...state, error: payload, errorModalVisible: true };
         },
 
         deleteSuccess(state,  { payload }) {
@@ -130,17 +119,17 @@ export default {
                 for (let i = 0; i < ids.length; i ++) {
                     acc = acc.filter(s => s.id != ids[i]);
                 }
-                return { ...state, stbList: acc, loading: false };
+                return { ...state, stbList: acc };
             } else {
                 let acc = state.mobileList;
                 for (let i = 0; i < ids.length; i ++) {
                     acc = acc.filter(s => s.id != ids[i]);
                 }
-                return { ...state, mobileList: acc, loading: false };
+                return { ...state, mobileList: acc };
             }
         },
         deleteFailed(state, { payload }){
-            return { ...state, error: payload, loading: false, errorModalVisible: true};
+            return { ...state, error: payload, errorModalVisible: true};
         },
     },
 
