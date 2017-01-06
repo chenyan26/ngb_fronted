@@ -1,14 +1,14 @@
 /**
- * Created by echo on 2016/12/9.
+ * Created by echo on 2017/1/6.
  */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'dva';
 import { Button, Table, Modal } from 'antd';
 
-import styles from './Customer.less';
-import CustomerModal from '../components/CustomerModal';
+import styles from './Sale.less';
+import SaleModal from '../components/SaleModal';
 
-class Customer extends React.Component {
+class Sale extends React.Component {
 
     state = {
         selectedRows: [],
@@ -30,7 +30,7 @@ class Customer extends React.Component {
                 ),
                 onOk(){
                     dispatch({
-                        type: 'customer/hideErrorModal',
+                        type: 'sale/hideErrorModal',
                     });
                 },
             });
@@ -42,7 +42,7 @@ class Customer extends React.Component {
     renderModal = ()=> {
         const { modalVisible , newModal, currentItem, dispatch} = this.props;
         if (modalVisible) {
-            const customerModalProps = {
+            const saleModalProps = {
                 item: newModal ? {} : currentItem,
                 visible: modalVisible,
                 isEmpty: newModal,
@@ -50,26 +50,26 @@ class Customer extends React.Component {
                     if (newModal) {
                         console.log("提交新建");
                         dispatch({
-                            type: 'customer/create',
+                            type: 'sale/create',
                             payload: data,
                         });
                     } else {
                         console.log("提交编辑");
                         dispatch({
-                            type: 'customer/update',
+                            type: 'sale/update',
                             payload: data,
                         });
                     }
                 },
                 onCancel() {
                     dispatch({
-                        type: 'customer/hideModal',
+                        type: 'sale/hideModal',
                     });
                 },
             };
 
             return (
-                    <CustomerModal {...customerModalProps}/>
+                    <SaleModal {...saleModalProps}/>
             )
         }
     };
@@ -79,7 +79,7 @@ class Customer extends React.Component {
     onAdd = () => {
         const { dispatch } = this.props;
         dispatch({
-            type: 'customer/showModal',
+            type: 'sale/showModal',
             payload: {
                 newModal: true,
             },
@@ -90,7 +90,7 @@ class Customer extends React.Component {
         console.log("编辑："+record);
         const { dispatch } = this.props;
         dispatch({
-            type: 'customer/showModal',
+            type: 'sale/showModal',
             payload: {
                 newModal: false,
                 currentItem: {...record, key:undefined},
@@ -116,7 +116,7 @@ class Customer extends React.Component {
             selectedRows: []
         });
         dispatch({
-            type: 'customer/delete',
+            type: 'sale/delete',
             payload:  {ids: idArr}
         });
     };
@@ -129,31 +129,37 @@ class Customer extends React.Component {
 
     renderTable = () => {
         const columns = [{
-            title: '姓名',
-            dataIndex: 'name',
-            width: 80,
-        }, {
-            title: '性别',
-            // dataIndex: 'gender',
-            width: 50,
-            render: (text, record) => { //每一个行的信息 data[record.id]
-                return(
-                        <p>{record.gender ? "女" : "男"}</p>
-                );
-            },
-        }, {
-            title: '年龄',
-            dataIndex: 'age',
-            width: 40,
-        }, {
-            title: '地址',
-            dataIndex: 'address',
-            width: 200,
-        }, {
-            title: '手机',
+            title: '电话',
             dataIndex: 'mobile',
             width: 100,
         }, {
+            title: '日期',
+            dataIndex: 'date',
+            width: 100,
+        }, {
+            title: '网点',
+            dataIndex: 'point',
+            width: 200,
+        }, {
+            title: '序列号',
+            // dataIndex: 'serial_number',
+            key: 'serial_number',
+            width: 150,
+            render: (text, record) => { //每一个行的信息 data[record.id]
+                return(
+                        <div>
+                            {record.serial_number ? record.serial_number.map((obj, i) => {
+                                return (
+                                        <p key={i}>
+                                            {obj}
+                                        </p>
+                                );
+                            }) : ""
+                            }
+                        </div>
+                );
+            },
+        },  {
             title: '操作',
             key: 'edit',
             width: 50,
@@ -170,11 +176,10 @@ class Customer extends React.Component {
             data[i] = {
                 key: i,
                 id: obj.id,
-                name: obj.name,
-                gender: obj.gender,
-                age: obj.age,
-                address: obj.address,
                 mobile: obj.mobile,
+                date: obj.date,
+                point: obj.point,
+                serial_number: obj.serial_number,
             }
         });
 
@@ -206,13 +211,13 @@ class Customer extends React.Component {
                     <Button type="primary"
                             className={styles.add_btn}
                             onClick={this.onAdd}>
-                        新增客户
+                        新增销售记录
                     </Button>
                     <Button type="primary"
                             className={styles.delete_btn}
                             disabled = {this.state.selectedRows.length ? false : true}
                             onClick={this.showDeleteConfirm}>
-                        删除客户
+                        删除销售记录
                     </Button>
                     {this.renderTable()}
                     {this.renderModal()}
@@ -221,14 +226,14 @@ class Customer extends React.Component {
                            onOk={this.onDelete}
                            onCancel={this.handleConfirmCancle}
                            okText="确定" cancelText="取消">
-                        <p className={styles.confirm_p}>确定要删除选中的客户信息吗？</p>
+                        <p className={styles.confirm_p}>确定要删除选中的销售记录吗？</p>
                     </Modal>
                 </div>
         );
     }
 }
 
-Customer.propTypes = {
+Sale.propTypes = {
     list: PropTypes.array.isRequired,
     modalVisible: PropTypes.bool.isRequired,
     newModal: PropTypes.bool.isRequired,
@@ -239,14 +244,14 @@ Customer.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        list : state.customer.list,
-        loading : state.loading.models.customer,
-        modalVisible: state.customer.modalVisible,
-        newModal: state.customer.newModal,
-        currentItem: state.customer.currentItem,
-        errorModalVisible: state.customer.errorModalVisible,
-        error: state.customer.error
+        list : state.sale.list,
+        loading : state.loading.models.sale,
+        modalVisible: state.sale.modalVisible,
+        newModal: state.sale.newModal,
+        currentItem: state.sale.currentItem,
+        errorModalVisible: state.sale.errorModalVisible,
+        error: state.sale.error
     }
 }
 
-export default connect(mapStateToProps)(Customer)
+export default connect(mapStateToProps)(Sale)

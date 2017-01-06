@@ -31,6 +31,7 @@ app.use(createLoading());
 // 3. Model
 app.model(require('./models/app'));
 app.model(require('./models/customer'));
+app.model(require('./models/sale'));
 app.model(require('./models/stb'));
 app.model(require('./models/account'));
 app.model(require('./models/stbRecord'));

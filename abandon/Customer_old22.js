@@ -5,8 +5,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'dva';
 import { Button, Table, Modal } from 'antd';
 
-import styles from './Customer.less';
-import CustomerModal from '../components/CustomerModal';
+import styles from '../src/routes/Customer.less';
+import CustomerModal from '../src/components/CustomerModal';
 
 class Customer extends React.Component {
 
@@ -154,6 +154,25 @@ class Customer extends React.Component {
             dataIndex: 'mobile',
             width: 100,
         }, {
+            title: '序列号',
+            // dataIndex: 'serial_number',
+            key: 'serial_number',
+            width: 150,
+            render: (text, record) => { //每一个行的信息 data[record.id]
+                return(
+                        <div>
+                            {record.serial_number ? record.serial_number.map((obj, i) => {
+                                return (
+                                        <p key={i}>
+                                            {obj}
+                                        </p>
+                                );
+                            }) : ""
+                            }
+                        </div>
+                );
+            },
+        },  {
             title: '操作',
             key: 'edit',
             width: 50,
@@ -175,6 +194,7 @@ class Customer extends React.Component {
                 age: obj.age,
                 address: obj.address,
                 mobile: obj.mobile,
+                serial_number: obj.serial_number,
             }
         });
 

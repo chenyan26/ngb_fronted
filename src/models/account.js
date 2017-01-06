@@ -98,8 +98,8 @@ export default {
                 qList.push({
                     id: obj.id,
                     number: obj.number,
-                    register_date: obj.registerDate,
-                    lately_date: obj.latelyDate})
+                    register_date: obj.register_date,
+                    lately_date: obj.lately_date})
             });
             if (payload.type == 1) { //机顶盒
                 return {...state, stbList: qList};
